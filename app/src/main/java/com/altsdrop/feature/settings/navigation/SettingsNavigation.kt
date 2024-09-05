@@ -7,14 +7,14 @@ import com.altsdrop.feature.settings.ui.home.SettingsHomeRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
-object Settings
+object SettingsScreen
 
 fun NavController.navigateToSettings() {
-    navigate(Settings)
+    navigate(SettingsScreen)
 }
 
 fun NavGraphBuilder.settingsScreen() {
-    composable<Settings> {
+    composable<SettingsScreen> {
         SettingsHomeRoute()
     }
 }

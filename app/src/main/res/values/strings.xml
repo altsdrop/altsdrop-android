@@ -3,4 +3,9 @@
     <string name="bottom_navigation_airdrop_tab">Airdrop</string>
     <string name="bottom_navigation_news_tab">News</string>
     <string name="bottom_navigation_settings_tab">Settings</string>
+
+    <string name="title_featured_airdrop">Featured</string>
+    <string name="new_tab">New</string>
+    <string name="highly_rated_tab">Highly Rated</string>
+    <string name="explore_tab">Explore</string>
 </resources>

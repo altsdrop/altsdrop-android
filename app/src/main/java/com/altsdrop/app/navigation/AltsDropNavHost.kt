@@ -5,14 +5,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.altsdrop.app.ui.activity.Feature
-import com.altsdrop.feature.airdrop.navigation.Airdrop
+import com.altsdrop.feature.airdrop.navigation.AirdropScreen
 import com.altsdrop.feature.airdrop.navigation.airdropScreen
-import com.altsdrop.feature.airdrop.navigation.navigateToAirdrop
-import com.altsdrop.feature.news.navigation.News
-import com.altsdrop.feature.news.navigation.navigateToNews
+import com.altsdrop.feature.news.navigation.NewsScreen
 import com.altsdrop.feature.news.navigation.newsScreen
-import com.altsdrop.feature.settings.navigation.Settings
-import com.altsdrop.feature.settings.navigation.navigateToSettings
+import com.altsdrop.feature.settings.navigation.SettingsScreen
 import com.altsdrop.feature.settings.navigation.settingsScreen
 
 @Composable
@@ -22,9 +19,9 @@ fun AltsDropNavHost(
     feature: Feature,
 ) {
     val startDestination: Any = when (feature) {
-        Feature.Airdrop -> Airdrop
-        Feature.News -> News
-        Feature.Settings -> Settings
+        Feature.Airdrop -> AirdropScreen
+        Feature.News -> NewsScreen
+        Feature.Settings -> SettingsScreen
     }
 
     NavHost(

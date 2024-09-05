@@ -7,14 +7,14 @@ import com.altsdrop.feature.news.ui.home.NewsHomeRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
-object News
+object NewsScreen
 
 fun NavController.navigateToNews() {
-    navigate(News)
+    navigate(NewsScreen)
 }
 
 fun NavGraphBuilder.newsScreen() {
-    composable<News> {
+    composable<NewsScreen> {
         NewsHomeRoute()
     }
 }

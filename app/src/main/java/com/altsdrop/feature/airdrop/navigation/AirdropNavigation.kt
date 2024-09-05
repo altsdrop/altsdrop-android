@@ -7,14 +7,14 @@ import com.altsdrop.feature.airdrop.ui.home.AirdropHomeRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
-object Airdrop
+object AirdropScreen
 
 fun NavController.navigateToAirdrop() {
-    navigate(Airdrop)
+    navigate(AirdropScreen)
 }
 
 fun NavGraphBuilder.airdropScreen() {
-    composable<Airdrop> {
+    composable<AirdropScreen> {
         AirdropHomeRoute()
     }
 }
