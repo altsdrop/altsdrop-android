@@ -1,7 +1,7 @@
 package com.altsdrop.feature.airdrop.data.repository
 
-import com.altsdrop.feature.airdrop.data.repository.model.AirdropDTO
-import com.altsdrop.feature.airdrop.data.repository.model.toDomain
+import com.altsdrop.feature.airdrop.data.model.AirdropDTO
+import com.altsdrop.feature.airdrop.data.model.toDomain
 import com.altsdrop.feature.airdrop.domain.model.Airdrop
 import com.altsdrop.feature.airdrop.domain.repository.AirdropRepository
 import com.google.firebase.firestore.CollectionReference

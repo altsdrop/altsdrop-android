@@ -1,7 +1,5 @@
 package com.altsdrop.feature.airdrop.domain.model
 
-import com.altsdrop.feature.airdrop.domain.OfficialLinks
-import com.altsdrop.feature.airdrop.domain.SocialLinks
 import java.util.UUID
 
 data class Airdrop(

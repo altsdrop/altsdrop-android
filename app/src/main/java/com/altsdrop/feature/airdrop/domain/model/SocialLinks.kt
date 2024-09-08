@@ -1,4 +1,4 @@
-package com.altsdrop.feature.airdrop.domain
+package com.altsdrop.feature.airdrop.domain.model
 
 data class SocialLinks(
     val discord: String = "",

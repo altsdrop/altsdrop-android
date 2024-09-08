@@ -17,18 +17,14 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
@@ -40,8 +36,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.altsdrop.R
-import com.altsdrop.feature.airdrop.domain.OfficialLinks
-import com.altsdrop.feature.airdrop.domain.SocialLinks
+import com.altsdrop.feature.airdrop.domain.model.OfficialLinks
+import com.altsdrop.feature.airdrop.domain.model.SocialLinks
 import com.altsdrop.feature.airdrop.domain.model.Airdrop
 
 @Composable
@@ -78,7 +74,9 @@ fun AirdropHomeScreen(
 
                 Text(
                     text = stringResource(id = R.string.title_featured_airdrop),
-                    style = MaterialTheme.typography.headlineSmall
+                    style = MaterialTheme.typography.headlineSmall.copy(
+                        fontWeight = FontWeight.Bold
+                    )
                 )
             }
 

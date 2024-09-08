@@ -8,4 +8,6 @@
     <string name="new_tab">New</string>
     <string name="highly_rated_tab">Highly Rated</string>
     <string name="explore_tab">Explore</string>
+
+    <string name="title_featured_news">News</string>
 </resources>

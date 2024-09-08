@@ -1,4 +1,4 @@
-package com.altsdrop.feature.airdrop.data.repository.model
+package com.altsdrop.feature.airdrop.data.model
 
 import com.altsdrop.feature.airdrop.domain.model.Airdrop
 import java.util.UUID

@@ -1,6 +1,6 @@
-package com.altsdrop.feature.airdrop.data.repository.model
+package com.altsdrop.feature.airdrop.data.model
 
-import com.altsdrop.feature.airdrop.domain.OfficialLinks
+import com.altsdrop.feature.airdrop.domain.model.OfficialLinks
 
 data class OfficialLinksDTO(
     val website: String = "",

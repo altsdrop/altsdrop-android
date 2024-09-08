@@ -1,6 +1,6 @@
-package com.altsdrop.feature.airdrop.data.repository.model
+package com.altsdrop.feature.airdrop.data.model
 
-import com.altsdrop.feature.airdrop.domain.SocialLinks
+import com.altsdrop.feature.airdrop.domain.model.SocialLinks
 
 data class SocialLinksDTO(
     val discord: String = "",
