@@ -1,6 +1,7 @@
 package com.altsdrop.feature.news.data.model
 
 import com.altsdrop.feature.news.domain.model.Article
+import com.altsdrop.feature.news.util.convertFirebaseTimestamp
 import com.google.firebase.Timestamp
 
 data class ArticleDTO(
@@ -18,7 +19,7 @@ fun ArticleDTO.toDomain() = Article(
     headerImage = headerImage,
     category = category,
     content = content,
-    publishedDate = publishedDate,
+    publishedDate = convertFirebaseTimestamp(publishedDate),
     tags = tags,
     title = title
 )

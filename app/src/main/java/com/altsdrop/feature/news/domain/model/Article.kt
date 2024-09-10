@@ -7,7 +7,7 @@ data class Article(
     val headerImage: String = "",
     val category: String = "",
     val content: String = "",
-    val publishedDate: Timestamp = Timestamp.now(),
+    val publishedDate: String = "",
     val tags: List<String> = emptyList(),
     val title: String = ""
 )
