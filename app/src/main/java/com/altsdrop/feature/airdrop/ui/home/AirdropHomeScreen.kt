@@ -73,7 +73,7 @@ fun AirdropHomeScreen(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = stringResource(id = R.string.title_featured_airdrop),
+                    text = stringResource(id = R.string.title_feature_airdrop),
                     style = MaterialTheme.typography.headlineSmall.copy(
                         fontWeight = FontWeight.Bold
                     )

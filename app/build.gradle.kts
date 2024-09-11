@@ -68,6 +68,7 @@ dependencies {
     implementation(platform(libs.com.google.firebase))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.auth)
 
     //Hilt
     implementation(libs.hilt.android)

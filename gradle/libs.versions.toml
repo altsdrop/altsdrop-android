@@ -8,15 +8,15 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 kotlinxSerializationJson = "1.7.1"
-lifecycleRuntimeKtx = "2.8.4"
-activityCompose = "1.9.1"
-composeBom = "2024.08.00"
+lifecycleRuntimeKtx = "2.8.5"
+activityCompose = "1.9.2"
+composeBom = "2024.09.01"
 googleServicesPlugin = "4.4.2"
 firebaseBom = "33.2.0"
-hilt = "2.49"
+hilt = "2.51"
 ksp = "2.0.20-1.0.24"
-navigationCompose = "2.8.0-rc01"
-uiTextGoogleFonts = "1.6.8"
+navigationCompose = "2.8.0"
+uiTextGoogleFonts = "1.7.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -39,6 +39,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 com-google-firebase = { group = "com.google.firebase", name= "firebase-bom", version.ref = "firebaseBom"}
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
+firebase-auth = { module = "com.google.firebase:firebase-auth" }
 
 #Hilt Android
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
