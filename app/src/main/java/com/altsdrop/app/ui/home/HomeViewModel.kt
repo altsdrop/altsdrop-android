@@ -1,4 +1,4 @@
-package com.altsdrop.app.ui.activity
+package com.altsdrop.app.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor() : ViewModel() {
-    private val _uiState = MutableStateFlow(MainActivityUiState())
+    private val _uiState = MutableStateFlow(HomeScreenUiState())
     val uiState = _uiState.asStateFlow()
 
     fun onTabClicked(selectedTab: Tab) {
