@@ -33,4 +33,8 @@
 
     <string name="settings_category_account">Account</string>
     <string name="settings_logout">Logout</string>
+
+
+    <!-- Text -->
+    <string name="text_sign_in_with_google">Sign in with Google</string>
 </resources>
