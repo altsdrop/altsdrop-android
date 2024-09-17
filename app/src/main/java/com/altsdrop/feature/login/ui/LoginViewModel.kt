@@ -14,7 +14,10 @@ import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -68,7 +71,14 @@ class LoginViewModel @Inject constructor(
                                 // Got an ID token from Google. Use it to authenticate
                                 // with Firebase.
                                 val firebaseCredential = GoogleAuthProvider.getCredential(googleIdTokenCredential.idToken, null)
-                                firestoreAuth.signInWithCredential(firebaseCredential)
+                                val result = firestoreAuth.signInWithCredential(firebaseCredential)
+                                if(result.isSuccessful){
+                                    Log.d("", "Successfully logged in")
+                                    val user = Firebase.auth.currentUser
+                                    println(user?.email)
+                                } else {
+                                    Log.d("", "Failed to login")
+                                }
                             }
                             else -> {
                                 // Shouldn't happen.
