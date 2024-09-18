@@ -4,11 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.navOptions
 import com.altsdrop.app.ui.home.HomeScreenTab
 import com.altsdrop.feature.airdrop.navigation.AirdropScreen
 import com.altsdrop.feature.airdrop.navigation.airdropScreen
 import com.altsdrop.feature.ico.navigation.ICOScreen
 import com.altsdrop.feature.ico.navigation.icoScreen
+import com.altsdrop.feature.login.navigation.LoginScreen
 import com.altsdrop.feature.login.navigation.loginScreen
 import com.altsdrop.feature.news.navigation.NewsScreen
 import com.altsdrop.feature.news.navigation.newsScreen
@@ -27,7 +29,17 @@ fun MainNavHost(
         modifier = modifier,
     ) {
         homeScreen()
-        loginScreen()
+        loginScreen(
+            navigateToHomeScreen = {
+                navHostController.navigateToHomeScreen(
+                    navOptions = navOptions {
+                        popUpTo(LoginScreen) {
+                            inclusive = true
+                        }
+                    }
+                )
+            }
+        )
     }
 }
 

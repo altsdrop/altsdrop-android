@@ -1,24 +1,21 @@
 package com.altsdrop.feature.login.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.traceEventEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
@@ -33,21 +30,25 @@ import com.altsdrop.feature.login.ui.component.GoogleLoginButton
 
 @Composable
 fun LoginRoute(
+    navigateToHomeScreen: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LoginScreen(
-        uiState = uiState,
         onLoginClick = {
             viewModel.onSignInWithGoogleClick()
         }
     )
+
+    LaunchedEffect(uiState.isLoginSuccessful) {
+        if (uiState.isLoginSuccessful)
+            navigateToHomeScreen()
+    }
 }
 
 @Composable
 fun LoginScreen(
-    uiState: LoginScreenUiState,
     onLoginClick: () -> Unit = {}
 ) {
     Scaffold { paddingValues ->
@@ -56,7 +57,9 @@ fun LoginScreen(
                 model = R.drawable.ic_login_art,
                 contentDescription = "",
                 contentScale = ContentScale.None,
-                modifier = Modifier.fillMaxWidth().weight(1f)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
             )
 
             Column(
@@ -114,6 +117,6 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     AltsdropTheme {
-        LoginScreen(uiState = LoginScreenUiState())
+        LoginScreen()
     }
 }
