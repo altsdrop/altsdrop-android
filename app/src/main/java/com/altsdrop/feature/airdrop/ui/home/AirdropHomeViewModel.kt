@@ -2,6 +2,7 @@ package com.altsdrop.feature.airdrop.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.altsdrop.feature.airdrop.domain.model.Airdrop
 import com.altsdrop.feature.airdrop.domain.usecase.GetFeaturedAirdropsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,7 +52,10 @@ class AirdropHomeViewModel @Inject constructor(
 
     private fun getNewAirdrops() {
         viewModelScope.launch {
-            val featuredAirdrops = getFeaturedAirdropsUseCase()
+            val featuredAirdrops: ArrayList<Airdrop> = arrayListOf()
+            featuredAirdrops.addAll(getFeaturedAirdropsUseCase())
+            featuredAirdrops.addAll(getFeaturedAirdropsUseCase())
+            featuredAirdrops.addAll(getFeaturedAirdropsUseCase())
 
             _uiState.update {
                 it.copy(
