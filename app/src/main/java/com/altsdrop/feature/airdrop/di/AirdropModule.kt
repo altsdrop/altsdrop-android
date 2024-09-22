@@ -1,6 +1,6 @@
 package com.altsdrop.feature.airdrop.di
 
-import com.altsdrop.core.util.FirestoreConstants
+import com.altsdrop.core.firebase.firestore.util.FirestoreConstants
 import com.altsdrop.feature.airdrop.data.repository.AirdropRepositoryImpl
 import com.altsdrop.feature.airdrop.domain.repository.AirdropRepository
 import com.google.firebase.firestore.CollectionReference

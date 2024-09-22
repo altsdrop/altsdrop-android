@@ -30,9 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.altsdrop.R
-import com.altsdrop.feature.airdrop.domain.model.Airdrop
-import com.altsdrop.feature.airdrop.domain.model.OfficialLinks
-import com.altsdrop.feature.airdrop.domain.model.SocialLinks
 import com.altsdrop.feature.airdrop.domain.model.previewAirdrop
 
 @Composable

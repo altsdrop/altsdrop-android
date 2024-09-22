@@ -2,7 +2,6 @@ package com.altsdrop.feature.news.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.altsdrop.feature.airdrop.ui.home.AirdropHomeScreenUiState
 import com.altsdrop.feature.news.domain.usecase.GetArticlesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -1,6 +1,6 @@
 package com.altsdrop.feature.news.di
 
-import com.altsdrop.core.util.FirestoreConstants
+import com.altsdrop.core.firebase.firestore.util.FirestoreConstants
 import com.altsdrop.feature.news.data.repository.NewsRepositoryImpl
 import com.altsdrop.feature.news.domain.repository.NewsRepository
 import com.google.firebase.firestore.CollectionReference

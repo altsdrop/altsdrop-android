@@ -7,5 +7,6 @@ import com.altsdrop.feature.settings.domain.model.User
 @Immutable
 data class SettingsHomeScreenUiState(
     val user: User = User(),
-    val categories: List<SettingsCategory> = emptyList()
+    val categories: List<SettingsCategory> = emptyList(),
+    val showDialog: Boolean = false
 )

@@ -1,5 +1,7 @@
 package com.altsdrop.feature.settings.ui.home
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -24,11 +26,17 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,6 +45,9 @@ import coil.compose.AsyncImage
 import com.altsdrop.R
 import com.altsdrop.feature.settings.domain.model.Setting
 import com.altsdrop.feature.settings.domain.model.User
+import com.altsdrop.feature.settings.ui.component.AltsdropAlertDialog
+import com.altsdrop.feature.settings.ui.component.AltsdropInputDialog
+import com.altsdrop.feature.settings.ui.home.SettingsHomeScreenUiEvent.OnSettingClicked
 
 @Composable
 fun SettingsHomeRoute(
@@ -94,7 +105,7 @@ fun SettingsHomeScreen(
                 }
 
                 item {
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
 
                 items(settingsCategory.settings, key = { setting -> setting.id }) { setting ->
@@ -107,22 +118,20 @@ fun SettingsHomeScreen(
                         }
 
                         is Setting.Link -> {
-                            LinkSetting(
+                            LinkSetting(setting = setting)
+                        }
+
+                        is Setting.AlertDialog -> {
+                            DialogSetting(setting = setting)
+                        }
+
+                        is Setting.Intent -> {}
+                        is Setting.None -> {}
+                        is Setting.InputDialog -> {
+                            InputDialogSetting(
                                 setting = setting,
                                 onEvent = onEvent
                             )
-                        }
-
-                        is Setting.Dialog -> {
-
-                        }
-
-                        is Setting.Intent -> {
-
-                        }
-
-                        is Setting.None -> {
-
                         }
                     }
                 }
@@ -132,16 +141,106 @@ fun SettingsHomeScreen(
                 }
             }
         }
+
+
     }
 }
 
 @Composable
-fun LinkSetting(setting: Setting.Link, onEvent: (SettingsHomeScreenUiEvent) -> Unit) {
+fun InputDialogSetting(
+    setting: Setting.InputDialog,
+    onEvent: (SettingsHomeScreenUiEvent) -> Unit
+) {
+    var showDialog by remember { mutableStateOf(false) }
+
     Row(
         modifier = Modifier
             .wrapContentHeight()
             .clickable {
-                onEvent(SettingsHomeScreenUiEvent.OnSettingClicked(setting.id))
+                showDialog = true
+            }
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            modifier = Modifier
+                .weight(1f),
+            text = setting.name,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onBackground.copy(
+                alpha = 0.6f
+            )
+        )
+    }
+
+    AltsdropInputDialog(
+        showDialog = showDialog,
+        onDismiss = { showDialog = false },
+        onConfirm = { input ->
+            showDialog = false
+            onEvent(
+                SettingsHomeScreenUiEvent.OnInputDialogConfirm(
+                    settingId = setting.id,
+                    inputText = input
+                )
+            )
+        },
+        title = setting.title,
+        text = setting.message,
+        icon = ImageVector.vectorResource(id = setting.iconResId),
+        confirmText = setting.confirmText,
+        cancelText = setting.cancelText,
+        placeholderText = setting.placeholderText,
+        labelText = setting.labelText
+    )
+}
+
+@Composable
+fun DialogSetting(setting: Setting.AlertDialog) {
+    var showDialog by remember { mutableStateOf(false) }
+
+    Row(
+        modifier = Modifier
+            .wrapContentHeight()
+            .clickable {
+                showDialog = true
+            }
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            modifier = Modifier
+                .weight(1f),
+            text = setting.name,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onBackground.copy(
+                alpha = 0.6f
+            )
+        )
+    }
+
+    AltsdropAlertDialog(
+        showDialog = showDialog,
+        onDismiss = { showDialog = false },
+        onConfirm = { showDialog = false },
+        title = setting.title,
+        text = setting.message,
+        icon = setting.icon,
+        confirmText = setting.confirmText,
+        cancelText = setting.cancelText
+    )
+}
+
+@Composable
+fun LinkSetting(setting: Setting.Link) {
+    val context = LocalContext.current
+
+    Row(
+        modifier = Modifier
+            .wrapContentHeight()
+            .clickable {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(setting.url))
+                context.startActivity(intent)
             }
             .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -190,7 +289,7 @@ fun ToggleSetting(setting: Setting.Toggle, onEvent: (SettingsHomeScreenUiEvent) 
         Switch(
             checked = setting.toggleState,
             onCheckedChange = {
-                onEvent(SettingsHomeScreenUiEvent.OnSettingClicked(setting.id))
+                onEvent(OnSettingClicked(setting.id))
             },
             thumbContent = {
                 if (setting.toggleState) {
@@ -219,19 +318,24 @@ fun UserDetails(user: User) {
 
         Spacer(modifier = Modifier.width(16.dp))
 
-        Column {
+        Column(
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+                .weight(1f)
+                .wrapContentHeight(),
+        ) {
             Text(
                 text = user.name,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontWeight = FontWeight.Bold
-                )
+                ),
+                maxLines = 1
             )
-
-            Spacer(modifier = Modifier.height(8.dp))
 
             Text(
                 text = user.email,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                maxLines = 1
             )
         }
     }

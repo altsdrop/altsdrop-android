@@ -37,4 +37,27 @@
 
     <!-- Text -->
     <string name="text_sign_in_with_google">Sign in with Google</string>
+
+    <!--Dialog-->
+    <string name="dialog_cancel">Cancel</string>
+
+    <!--Logout Dialog-->
+    <string name="logout_dialog_title">Logout Confirmation</string>
+    <string name="logout_dialog_message">Are you sure you want to logout?</string>
+    <string name="logout_dialog_confirm">Logout</string>
+
+    <!--Feedback Dialog-->
+    <string name="feedback_dialog_title">We Value Your Feedback</string>
+    <string name="feedback_dialog_message">Please provide your thoughts below:</string>
+    <string name="feedback_dialog_confirm">Submit</string>
+    <string name="feedback_input_field_label">Feedback</string>
+    <string name="feedback_input_field_placeholder">Vent your praises (or frustrations) here!</string>
+
+    <!--Report Issue Dialog-->
+    <string name="report_issue_dialog_title">Report Issue</string>
+    <string name="report_issue_dialog_message">Please provide a brief description of the issue below:</string>
+    <string name="report_issue_dialog_confirm">Submit</string>
+    <string name="report_issue_input_field_label">Issue Description</string>
+    <string name="report_issue_input_field_placeholder">Describe the issue in detail, including any relevant information.</string>
+
 </resources>

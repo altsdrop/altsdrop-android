@@ -2,9 +2,11 @@ package com.altsdrop.feature.settings.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.altsdrop.core.util.ToastManager
 import com.altsdrop.feature.settings.domain.model.Setting
 import com.altsdrop.feature.settings.domain.usecase.GetSettingsUseCase
 import com.altsdrop.feature.settings.domain.usecase.GetUserDetailsUseCase
+import com.altsdrop.feature.settings.domain.usecase.PostFeedbackUseCase
 import com.altsdrop.feature.settings.util.SettingConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +19,9 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsHomeViewModel @Inject constructor(
     private val getUserDetailsUseCase: GetUserDetailsUseCase,
-    private val getSettingsUseCase: GetSettingsUseCase
+    private val getSettingsUseCase: GetSettingsUseCase,
+    private val postFeedbackUseCase: PostFeedbackUseCase,
+    private val toastManager: ToastManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingsHomeScreenUiState())
@@ -57,6 +61,35 @@ class SettingsHomeViewModel @Inject constructor(
                     }
                 }
             }
+
+            is SettingsHomeScreenUiEvent.OnInputDialogConfirm -> {
+                when (settingsHomeScreenUiEvent.settingId) {
+                    SettingConstants.FEEDBACK -> {
+                        submitFeedback(settingsHomeScreenUiEvent.inputText)
+                    }
+
+                    SettingConstants.REPORT_AN_ISSUE -> {
+                        submitIssueReport(settingsHomeScreenUiEvent.inputText)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun submitIssueReport(inputText: String) {
+
+    }
+
+    private fun submitFeedback(feedbackText: String) {
+        viewModelScope.launch {
+            postFeedbackUseCase(feedbackText).fold(
+                onSuccess = {
+                    toastManager.showToast("Feedback sent successfully")
+                },
+                onFailure = {
+                    toastManager.showToast("Failed to send feedback")
+                }
+            )
         }
     }
 

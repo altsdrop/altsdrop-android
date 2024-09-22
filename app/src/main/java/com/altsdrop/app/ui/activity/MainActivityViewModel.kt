@@ -5,8 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.altsdrop.app.navigation.HomeScreen
 import com.altsdrop.core.domain.CheckUserLoginUseCase
 import com.altsdrop.feature.login.navigation.LoginScreen
-import com.altsdrop.feature.login.ui.LoginRoute
-import com.altsdrop.feature.login.ui.LoginScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

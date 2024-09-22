@@ -1,7 +1,5 @@
 package com.altsdrop.feature.news.domain.model
 
-import com.google.firebase.Timestamp
-
 data class Article(
     val id: String = "",
     val headerImage: String = "",

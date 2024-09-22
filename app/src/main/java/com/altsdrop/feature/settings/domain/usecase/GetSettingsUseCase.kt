@@ -1,5 +1,7 @@
 package com.altsdrop.feature.settings.domain.usecase
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import com.altsdrop.R
 import com.altsdrop.core.util.Resources
 import com.altsdrop.feature.settings.domain.model.Setting
@@ -90,17 +92,27 @@ class GetSettingsUseCase @Inject constructor(private val resources: Resources) {
                 description = "Get in touch with us",
                 url = "https://discord.com"
             ),
-            Setting.Link(
+            Setting.InputDialog(
+                title = resources.getString(R.string.feedback_dialog_title),
+                message = resources.getString(R.string.feedback_dialog_message),
+                confirmText = resources.getString(R.string.feedback_dialog_confirm),
+                cancelText = resources.getString(R.string.dialog_cancel),
+                iconResId = R.drawable.baseline_feedback_24,
                 id = SettingConstants.FEEDBACK,
-                name = resources.getString(R.string.settings_feedback),  // settings_feedback
-                description = "Send us your feedback",
-                url = "https://discord.com"
+                name = resources.getString(R.string.settings_feedback),
+                placeholderText = resources.getString(R.string.feedback_input_field_placeholder),
+                labelText = resources.getString(R.string.feedback_input_field_label)
             ),
-            Setting.Link(
+            Setting.InputDialog(
+                title = resources.getString(R.string.report_issue_dialog_title),
+                message = resources.getString(R.string.report_issue_dialog_message),
+                confirmText = resources.getString(R.string.report_issue_dialog_confirm),
+                cancelText = resources.getString(R.string.dialog_cancel),
+                iconResId = R.drawable.baseline_report_24,
                 id = SettingConstants.REPORT_AN_ISSUE,
-                name = resources.getString(R.string.settings_report_an_issue),  // settings_report_an_issue
-                description = "Report an issue you're facing",
-                url = "https://discord.com"
+                name = resources.getString(R.string.settings_report_an_issue),
+                placeholderText = resources.getString(R.string.report_issue_input_field_placeholder),
+                labelText = resources.getString(R.string.report_issue_input_field_label)
             )
         )
     )
@@ -108,9 +120,14 @@ class GetSettingsUseCase @Inject constructor(private val resources: Resources) {
     private fun logoutSetting() = SettingsCategory(
         categoryName = resources.getString(R.string.settings_category_account),  // settings_logout
         settings = listOf(
-            Setting.None(
+            Setting.AlertDialog(
+                title = resources.getString(R.string.logout_dialog_title),
+                message = resources.getString(R.string.logout_dialog_message),
+                confirmText = resources.getString(R.string.logout_dialog_confirm),
+                cancelText = resources.getString(R.string.dialog_cancel),
+                icon = Icons.Default.Info,
                 id = SettingConstants.LOGOUT,
-                name = resources.getString(R.string.settings_logout),  // settings_logout
+                name = resources.getString(R.string.settings_logout),
                 description = "Log out of your account",
             )
         )
