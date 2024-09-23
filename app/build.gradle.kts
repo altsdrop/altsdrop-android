@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.com.google.dagger.hilt.android)
     alias(libs.plugins.com.google.devtools.ksp)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.com.google.firebase.crashlytics)
     kotlin("plugin.serialization") version "2.0.20"
 }
 
@@ -70,6 +71,8 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.auth)
     implementation(libs.play.services.auth)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.config)
 
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
@@ -90,6 +93,8 @@ dependencies {
 
     //Coil
     implementation(libs.coil.compose)
+
+    implementation(libs.google.gson)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

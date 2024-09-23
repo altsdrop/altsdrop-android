@@ -2,6 +2,7 @@
 agp = "8.5.2"
 coilCompose = "2.7.0"
 credentials = "1.2.2"
+googleGson = "2.11.0"
 googleId = "1.1.1"
 hiltNavigationCompose = "1.2.0"
 kotlin = "2.0.20"
@@ -10,16 +11,17 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 kotlinxSerializationJson = "1.7.1"
-lifecycleRuntimeKtx = "2.8.5"
+lifecycleRuntimeKtx = "2.8.6"
 activityCompose = "1.9.2"
-composeBom = "2024.09.01"
+composeBom = "2024.09.02"
 googleServicesPlugin = "4.4.2"
 firebaseBom = "33.3.0"
 hilt = "2.51"
 ksp = "2.0.20-1.0.24"
-navigationCompose = "2.8.0"
+navigationCompose = "2.8.1"
 playServicesAuth = "21.2.0"
-uiTextGoogleFonts = "1.7.1"
+uiTextGoogleFonts = "1.7.2"
+crashlytics = "3.0.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -49,6 +51,8 @@ com-google-firebase = { group = "com.google.firebase", name= "firebase-bom", ver
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
+firebase-config = { module = "com.google.firebase:firebase-config" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 
 #Play Services
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
@@ -67,6 +71,9 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 #Coil
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 
+#Gson
+google-gson = { module = "com.google.code.gson:gson", version.ref = "googleGson" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -74,4 +81,5 @@ com-google-gms-google-services = { id = "com.google.gms.google-services", versio
 com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
 com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+com-google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics"}
 

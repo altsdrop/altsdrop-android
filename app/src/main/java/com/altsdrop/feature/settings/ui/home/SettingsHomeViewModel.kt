@@ -6,6 +6,7 @@ import com.altsdrop.core.util.ToastManager
 import com.altsdrop.feature.settings.domain.model.Setting
 import com.altsdrop.feature.settings.domain.usecase.GetSettingsUseCase
 import com.altsdrop.feature.settings.domain.usecase.GetUserDetailsUseCase
+import com.altsdrop.feature.settings.domain.usecase.PostBugReportUseCase
 import com.altsdrop.feature.settings.domain.usecase.PostFeedbackUseCase
 import com.altsdrop.feature.settings.util.SettingConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +22,7 @@ class SettingsHomeViewModel @Inject constructor(
     private val getUserDetailsUseCase: GetUserDetailsUseCase,
     private val getSettingsUseCase: GetSettingsUseCase,
     private val postFeedbackUseCase: PostFeedbackUseCase,
+    private val postBugReportUseCase: PostBugReportUseCase,
     private val toastManager: ToastManager
 ) : ViewModel() {
 
@@ -68,16 +70,25 @@ class SettingsHomeViewModel @Inject constructor(
                         submitFeedback(settingsHomeScreenUiEvent.inputText)
                     }
 
-                    SettingConstants.REPORT_AN_ISSUE -> {
-                        submitIssueReport(settingsHomeScreenUiEvent.inputText)
+                    SettingConstants.REPORT_A_BUG -> {
+                        submitBugReport(settingsHomeScreenUiEvent.inputText)
                     }
                 }
             }
         }
     }
 
-    private fun submitIssueReport(inputText: String) {
-
+    private fun submitBugReport(message: String) {
+        viewModelScope.launch {
+            postBugReportUseCase(message).fold(
+                onSuccess = {
+                    toastManager.showToast("Bug report submitted successfully")
+                },
+                onFailure = {
+                    toastManager.showToast("Failed to submit bug report")
+                }
+            )
+        }
     }
 
     private fun submitFeedback(feedbackText: String) {

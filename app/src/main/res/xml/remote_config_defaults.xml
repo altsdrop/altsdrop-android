@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<defaults>
+    <entry>
+        <key>settings</key>
+        <value>{
+            "community": [
+            {
+            "title": "Twitter (X)",
+            "url": "https://www.facebook.com/yourpage"
+            },
+            {
+            "title": "Discord",
+            "url": "https://www.facebook.com/yourpage"
+            },
+            {
+            "title": "Telegram",
+            "url": "https://www.facebook.com/yourpage"
+            }
+            ],
+            "about": [
+            {
+            "title": "About Us",
+            "url": "https://www.facebook.com/yourpage"
+            },
+            {
+            "title": "Privacy Policy",
+            "url": "https://www.facebook.com/yourpage"
+            },
+            {
+            "title": "Terms of Service",
+            "url": "https://www.facebook.com/yourpage"
+            }
+            ],
+            "support": [
+            {
+            "title": "Contact Us",
+            "url": "mailto:support@altsdrop.com"
+            }
+            ]
+            }
+        </value>
+    </entry>
+</defaults>

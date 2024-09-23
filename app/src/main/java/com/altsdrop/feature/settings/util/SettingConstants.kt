@@ -10,6 +10,6 @@ object SettingConstants {
     const val ABOUT_US = "about_us"
     const val CONTACT_US = "contact_us"
     const val FEEDBACK = "feedback"
-    const val REPORT_AN_ISSUE = "report_an_issue"
+    const val REPORT_A_BUG = "report_a_bug"
     const val LOGOUT = "logout"
 }

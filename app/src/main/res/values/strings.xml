@@ -29,7 +29,7 @@
     <string name="settings_category_support">Support</string>
     <string name="settings_contact_us">Contact Us</string>
     <string name="settings_feedback">Feedback</string>
-    <string name="settings_report_an_issue">Report an issue</string>
+    <string name="settings_report_a_bug">Report a bug</string>
 
     <string name="settings_category_account">Account</string>
     <string name="settings_logout">Logout</string>
@@ -54,10 +54,10 @@
     <string name="feedback_input_field_placeholder">Vent your praises (or frustrations) here!</string>
 
     <!--Report Issue Dialog-->
-    <string name="report_issue_dialog_title">Report Issue</string>
-    <string name="report_issue_dialog_message">Please provide a brief description of the issue below:</string>
-    <string name="report_issue_dialog_confirm">Submit</string>
-    <string name="report_issue_input_field_label">Issue Description</string>
-    <string name="report_issue_input_field_placeholder">Describe the issue in detail, including any relevant information.</string>
+    <string name="report_bug_dialog_title">Report Bug</string>
+    <string name="report_bug_dialog_message">Please provide a brief description of the bug below:</string>
+    <string name="report_bug_dialog_confirm">Submit</string>
+    <string name="report_bug_dialog_input_field_label">Description</string>
+    <string name="report_bug_dialog_input_field_placeholder">Describe the bug in detail, including any relevant information.</string>
 
 </resources>

@@ -5,6 +5,7 @@ import com.altsdrop.core.util.Resources
 import com.altsdrop.core.util.ResourcesImpl
 import com.altsdrop.core.util.ToastManager
 import com.altsdrop.core.util.ToastManagerImpl
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,5 +27,11 @@ object CommonModule {
     @Singleton
     fun provideToastManager(@ApplicationContext context: Context): ToastManager {
         return ToastManagerImpl(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson {
+        return Gson()
     }
 }

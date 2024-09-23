@@ -1,6 +1,7 @@
 package com.altsdrop.feature.settings.domain.model
 
 import androidx.compose.ui.graphics.vector.ImageVector
+import java.util.UUID
 
 sealed class Setting(
     open val id: String,
@@ -18,7 +19,7 @@ sealed class Setting(
 
     data class Link(
         val url: String,
-        override val id: String,
+        override val id: String = UUID.randomUUID().toString(),
         override val name: String,
         override val description: String? = null,
         override val isEnabled: Boolean = true
