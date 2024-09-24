@@ -4,4 +4,5 @@ import com.altsdrop.feature.airdrop.domain.model.Airdrop
 
 interface AirdropRepository {
     suspend fun getFeaturedAirdrops(): List<Airdrop>
+    suspend fun getAirdropDetails(slug: String): Result<Airdrop>
 }

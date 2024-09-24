@@ -24,4 +24,20 @@ class AirdropRepositoryImpl(
             emptyList()
         }
     }
+
+    override suspend fun getAirdropDetails(slug: String) = withContext(Dispatchers.IO) {
+        return@withContext try {
+            // Retrieve all documents in the collection
+            val document = airdropCollectionRef
+                .whereEqualTo("slug", slug)
+                .get()
+                .await()
+            val airdropDTOs = document.toObjects(AirdropDTO::class.java)
+            Result.success(airdropDTOs.first().toDomain())
+        } catch (e: Exception) {
+            // Handle exception, e.g., logging or returning an empty list
+            e.printStackTrace()
+            Result.failure(e)
+        }
+    }
 }
