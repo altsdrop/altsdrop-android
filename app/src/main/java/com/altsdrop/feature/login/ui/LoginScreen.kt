@@ -26,6 +26,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.altsdrop.R
 import com.altsdrop.app.ui.theme.AltsdropTheme
+import com.altsdrop.feature.login.domain.model.SignInState
 import com.altsdrop.feature.login.ui.component.GoogleLoginButton
 
 @Composable
@@ -36,14 +37,13 @@ fun LoginRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LoginScreen(
-        onLoginClick = {
-            viewModel.onSignInWithGoogleClick()
-        }
+        onLoginClick = viewModel::onSignInWithGoogleClick
     )
 
-    LaunchedEffect(uiState.isLoginSuccessful) {
-        if (uiState.isLoginSuccessful)
+    LaunchedEffect(uiState.signInState) {
+        if (uiState.signInState == SignInState.Success) {
             navigateToHomeScreen()
+        }
     }
 }
 
@@ -102,9 +102,7 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                GoogleLoginButton(
-                    onClick = onLoginClick
-                )
+                GoogleLoginButton(onClick = onLoginClick)
             }
         }
     }

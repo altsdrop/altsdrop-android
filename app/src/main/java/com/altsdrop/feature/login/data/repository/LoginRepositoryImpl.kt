@@ -15,6 +15,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class LoginRepositoryImpl @Inject constructor(
@@ -31,7 +32,7 @@ class LoginRepositoryImpl @Inject constructor(
         return@withContext try {
             val result = credentialManager.getCredential(
                 request = request,
-                context = context,
+                context = WeakReference(context).get()!!,
             )
 
             val getGoogleIdToken = handleSignIn(result)

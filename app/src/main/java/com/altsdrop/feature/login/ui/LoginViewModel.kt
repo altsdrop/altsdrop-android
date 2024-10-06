@@ -7,7 +7,6 @@ import com.altsdrop.feature.login.domain.usecase.GoogleSignInUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,21 +20,15 @@ class LoginViewModel @Inject constructor(
 
     fun onSignInWithGoogleClick() {
         viewModelScope.launch {
-            googleSignInUseCase().collectLatest { signInState ->
-                when (signInState) {
-                    SignInState.Success -> {
-                        _uiState.update {
-                            it.copy(
-                                isLoginSuccessful = true
-                            )
-                        }
-                    }
-                    else -> {
-                        _uiState.update {
-                            it.copy(isLoginSuccessful = false)
-                        }
-                    }
-                }
+            _uiState.update {
+                it.copy(
+                    signInState = SignInState.Loading
+                )
+            }
+            _uiState.update {
+                it.copy(
+                    signInState = googleSignInUseCase()
+                )
             }
         }
     }
