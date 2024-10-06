@@ -6,6 +6,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navOptions
 import com.altsdrop.app.ui.home.HomeScreenTab
+import com.altsdrop.feature.airdrop.navigation.AirdropDetailsScreen
+import com.altsdrop.feature.airdrop.navigation.AirdropNavigationRoute
 import com.altsdrop.feature.airdrop.navigation.AirdropScreen
 import com.altsdrop.feature.airdrop.navigation.airdropScreen
 import com.altsdrop.feature.ico.navigation.ICOScreen
@@ -50,7 +52,7 @@ fun HomeScreenNavHost(
     startDestination: HomeScreenTab,
 ) {
     val destination: Any = when (startDestination) {
-        HomeScreenTab.Airdrop -> AirdropScreen
+        HomeScreenTab.Airdrop -> AirdropNavigationRoute
         HomeScreenTab.ICO -> ICOScreen
         HomeScreenTab.News -> NewsScreen
         HomeScreenTab.Settings -> SettingsScreen
@@ -61,7 +63,16 @@ fun HomeScreenNavHost(
         startDestination = destination,
         modifier = modifier,
     ) {
-        airdropScreen()
+        airdropScreen(
+            navigateToAirdropDetails = { slug ->
+                navHostController.navigate(
+                    route = AirdropDetailsScreen(
+                        slug = slug
+                    )
+                )
+            },
+            navigateBack = navHostController::popBackStack
+        )
         settingsScreen()
         newsScreen()
         icoScreen()

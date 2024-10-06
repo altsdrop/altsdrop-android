@@ -30,11 +30,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.altsdrop.R
+import com.altsdrop.feature.airdrop.domain.model.Airdrop
 import com.altsdrop.feature.airdrop.domain.model.previewAirdrop
 
 @Composable
 fun AirdropHomeRoute(
     viewModel: AirdropHomeViewModel = hiltViewModel(),
+    navigateToAirdropDetails: (String) -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -42,7 +44,9 @@ fun AirdropHomeRoute(
         uiState = uiState,
         onTabSelected = {
             viewModel.onTabSelected(it)
-        }
+        },
+        onFeaturedAirdropCardClicked = navigateToAirdropDetails,
+        onAirdropCardClicked = navigateToAirdropDetails
     )
 }
 
@@ -51,6 +55,8 @@ fun AirdropHomeRoute(
 fun AirdropHomeScreen(
     uiState: AirdropHomeScreenUiState,
     onTabSelected: (Int) -> Unit = {},
+    onFeaturedAirdropCardClicked: (String) -> Unit = {},
+    onAirdropCardClicked: (String) -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -86,7 +92,10 @@ fun AirdropHomeScreen(
                             airdrop.airdropId
                         }
                     ) { airdrop ->
-                        FeaturedAirdropCard(airdrop = airdrop)
+                        FeaturedAirdropCard(
+                            airdrop = airdrop,
+                            onFeaturedAirdropCardClicked = onFeaturedAirdropCardClicked
+                        )
                     }
 
                     item {
@@ -122,7 +131,10 @@ fun AirdropHomeScreen(
                     airdrop.airdropId
                 }
             ) { airdrop ->
-                AirdropCard(airdrop = airdrop)
+                AirdropCard(
+                    airdrop = airdrop,
+                    onAirdropCardClicked = onAirdropCardClicked
+                )
             }
 
             item {

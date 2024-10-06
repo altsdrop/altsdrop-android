@@ -11,6 +11,10 @@
 
     <string name="title_feature_news">News</string>
     <string name="title_feature_settings">Settings</string>
+    <string name="text_official_links">Official Links</string>
+    <string name="text_social_links">Social Links</string>
+    <string name="text_how_to_participate">How to participate</string>
+    <string name="text_airdrop_overview">Airdrop Overview</string>
 
     <!-- Settings -->
     <string name="settings_category_general">General</string>

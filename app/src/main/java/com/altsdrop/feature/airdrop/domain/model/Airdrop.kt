@@ -10,10 +10,10 @@ data class Airdrop(
     val description: String = "",
     val endDate: String = "",
     val networks: List<String> = listOf(""),
-    val officialLinks: OfficialLinks = OfficialLinks(),
+    val officialLinks: List<HyperLink> = listOf(),
     val shortDescription: String = "",
     val slug: String = "",
-    val socialLinks: SocialLinks = SocialLinks(),
+    val socialLinks: List<HyperLink> = listOf(),
     val startDate: String = "",
     val steps: List<String> = listOf(),
     val tags: List<String> = listOf(),
@@ -28,16 +28,31 @@ val previewAirdrop = Airdrop(
     "Blast yield comes from ETH staking and RWA protocols. The yield from these decentralized protocols is passed back to Blast users automatically. The default interest rate on other L2s is 0%. On Blast, it’s 4% for ETH and 5% for stablecoins.",
     "",
     listOf(""),
-    OfficialLinks(
-        documentation = "https://docs.blast.io/about-blast",
-        website = "https://blast.io/en",
-        whitePaper = "https://docs.blast.io/about-blast"
+    listOf(
+        HyperLink(
+            title = "Website",
+            url = "https://blast.io/en"
+        ),
+        HyperLink(
+            title = "Whitepaper",
+            url = "https://docs.blast.io/about-blast"
+        ),
+        HyperLink(
+            title = "Documentation",
+            url = "https://docs.blast.io/about-blast"
+        )
     ),
     "Blast is the only Ethereum L2 with native yield for ETH and stablecoins.",
     "blast-l2",
-    SocialLinks(
-        discord = "https://x.com/blast",
-        x = "https://x.com/blast"
+    listOf(
+        HyperLink(
+            title = "Discord",
+            url = "https://discord.gg/blast"
+        ),
+        HyperLink(
+            title = "X",
+            url = "https://x.com/blast"
+        )
     ),
     "",
     listOf(

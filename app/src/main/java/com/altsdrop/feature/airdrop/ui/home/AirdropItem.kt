@@ -1,6 +1,7 @@
 package com.altsdrop.feature.airdrop.ui.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -34,7 +35,10 @@ import com.altsdrop.feature.airdrop.domain.model.Airdrop
 import com.altsdrop.feature.airdrop.domain.model.previewAirdrop
 
 @Composable
-fun FeaturedAirdropCard(airdrop: Airdrop) {
+fun FeaturedAirdropCard(
+    airdrop: Airdrop,
+    onFeaturedAirdropCardClicked: (String) -> Unit = {}
+) {
     val screenWidth = LocalConfiguration.current.screenWidthDp
 
     val cardWidth by remember {
@@ -55,7 +59,10 @@ fun FeaturedAirdropCard(airdrop: Airdrop) {
     Card(
         modifier = Modifier
             .width(cardWidth.dp)
-            .height(cardHeight.dp),
+            .height(cardHeight.dp)
+            .clickable {
+                onFeaturedAirdropCardClicked(airdrop.slug)
+            },
         elevation = CardDefaults.elevatedCardElevation(
             defaultElevation = 8.dp
         )
@@ -71,12 +78,18 @@ fun FeaturedAirdropCard(airdrop: Airdrop) {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun AirdropCard(airdrop: Airdrop) {
+fun AirdropCard(
+    airdrop: Airdrop,
+    onAirdropCardClicked: (String) -> Unit = {}
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 12.dp)
-            .wrapContentHeight(),
+            .wrapContentHeight()
+            .clickable {
+                onAirdropCardClicked(airdrop.slug)
+            },
         elevation = CardDefaults.elevatedCardElevation(
             defaultElevation = 4.dp
         )

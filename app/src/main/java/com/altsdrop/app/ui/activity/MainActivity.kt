@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -27,7 +28,7 @@ class HomeActivity : ComponentActivity() {
                 val navHostController = rememberNavController()
                 uiState.startDestination?.let { startDestination ->
                     MainNavHost(
-                        modifier = Modifier,
+                        modifier = Modifier.fillMaxSize(),
                         navHostController = navHostController,
                         startDestination = startDestination
                     )
