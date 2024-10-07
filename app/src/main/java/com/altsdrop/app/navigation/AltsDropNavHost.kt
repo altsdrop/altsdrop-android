@@ -14,6 +14,8 @@ import com.altsdrop.feature.ico.navigation.ICOScreen
 import com.altsdrop.feature.ico.navigation.icoScreen
 import com.altsdrop.feature.login.navigation.LoginScreen
 import com.altsdrop.feature.login.navigation.loginScreen
+import com.altsdrop.feature.news.navigation.ArticleDetailsScreen
+import com.altsdrop.feature.news.navigation.NewsNavigationRoute
 import com.altsdrop.feature.news.navigation.NewsScreen
 import com.altsdrop.feature.news.navigation.newsScreen
 import com.altsdrop.feature.settings.navigation.SettingsScreen
@@ -53,8 +55,8 @@ fun HomeScreenNavHost(
 ) {
     val destination: Any = when (startDestination) {
         HomeScreenTab.Airdrop -> AirdropNavigationRoute
-        HomeScreenTab.ICO -> ICOScreen
-        HomeScreenTab.News -> NewsScreen
+     //   HomeScreenTab.ICO -> ICOScreen
+        HomeScreenTab.News -> NewsNavigationRoute
         HomeScreenTab.Settings -> SettingsScreen
     }
 
@@ -74,7 +76,16 @@ fun HomeScreenNavHost(
             navigateBack = navHostController::popBackStack
         )
         settingsScreen()
-        newsScreen()
+        newsScreen(
+            navigateToArticleDetails = { slug ->
+                navHostController.navigate(
+                    route = ArticleDetailsScreen(
+                        slug = slug
+                    )
+                )
+            },
+            navigateBack = navHostController::popBackStack
+        )
         icoScreen()
     }
 }

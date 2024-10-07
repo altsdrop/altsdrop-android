@@ -24,4 +24,22 @@ class NewsRepositoryImpl(
             emptyList()
         }
     }
+
+    override suspend fun getArticleBySlug(slug: String) = withContext(Dispatchers.IO) {
+        return@withContext try {
+            // Retrieve all documents in the collection
+            val document = newsCollectionRef
+                .whereEqualTo("slug", slug)
+                .get()
+                .await()
+            val airdropDTOs = document.toObjects(ArticleDTO::class.java)
+            Result.success(airdropDTOs.first().toDomain())
+        } catch (e: Exception) {
+            // Handle exception, e.g., logging or returning an empty list
+            e.printStackTrace()
+            Result.failure(e)
+        }
+    }
+
+
 }

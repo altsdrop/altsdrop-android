@@ -14,6 +14,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -65,11 +67,13 @@ fun HomeScreen(
                             .weight(1f),
                         icon = {
                             Icon(
-                                imageVector = if (tab.isSelected) {
-                                    tab.selectedIcon
-                                } else {
-                                    tab.unselectedIcon
-                                },
+                                imageVector = ImageVector.vectorResource(
+                                    id = if (tab.isSelected) {
+                                        tab.selectedIcon
+                                    } else {
+                                        tab.unselectedIcon
+                                    }
+                                ),
                                 contentDescription = ""
                             )
                         },

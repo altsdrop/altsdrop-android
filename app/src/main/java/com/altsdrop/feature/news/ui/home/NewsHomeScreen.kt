@@ -1,6 +1,7 @@
 package com.altsdrop.feature.news.ui.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,16 +38,21 @@ import com.altsdrop.feature.news.domain.model.Article
 @Composable
 fun NewsHomeRoute(
     viewModel: NewsHomeViewModel = hiltViewModel(),
+    navigateToArticleDetails: (String) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     NewsHomeScreen(
-        uiState = uiState
+        uiState = uiState,
+        onArticleClicked = navigateToArticleDetails
     )
 }
 
 @Composable
-fun NewsHomeScreen(uiState: NewsHomeScreenUiState) {
+fun NewsHomeScreen(
+    uiState: NewsHomeScreenUiState,
+    onArticleClicked: (String) -> Unit = {}
+) {
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background)
@@ -74,7 +80,12 @@ fun NewsHomeScreen(uiState: NewsHomeScreenUiState) {
                     article.id
                 }
             ) { article ->
-                ArticleCard(article = article)
+                ArticleCard(
+                    article = article,
+                    onArticleClicked = {
+                        onArticleClicked(article.slug)
+                    }
+                )
             }
         }
     }
@@ -82,11 +93,16 @@ fun NewsHomeScreen(uiState: NewsHomeScreenUiState) {
 }
 
 @Composable
-fun ArticleCard(article: Article) {
+fun ArticleCard(
+    article: Article,
+    onArticleClicked: () -> Unit = {}
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight(),
+            .wrapContentHeight().clickable {
+                onArticleClicked()
+            },
         horizontalArrangement = Arrangement.spacedBy(16.dp) // Start alignment, but text will expand
     ) {
         Column(
@@ -108,7 +124,7 @@ fun ArticleCard(article: Article) {
             Text(
                 modifier = Modifier
                     .wrapContentWidth(),
-                text = article.publishedDate,
+                text = article.publishedDate.toString(),
                 color = MaterialTheme.colorScheme.onSurface.copy(
                     alpha = 0.6f
                 ),
@@ -150,7 +166,10 @@ fun ArticleCardPreview() {
         article = Article(
             title = "Blast L2",
             headerImage = "",
-            category = "Finance"
+            categories = listOf(
+                "Category 1",
+                "Category 2"
+            )
         )
     )
 }
