@@ -2,9 +2,9 @@ package com.altsdrop.feature.login.di
 
 import android.content.Context
 import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
 import com.altsdrop.feature.login.data.repository.LoginRepositoryImpl
 import com.altsdrop.feature.login.domain.repository.LoginRepository
-import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -19,13 +19,13 @@ object LoginModule {
     @Provides
     fun provideLoginRepository(
         @ApplicationContext context: Context,
-        getSignInWithGoogleOption: GetSignInWithGoogleOption,
+        getCredentialRequest: GetCredentialRequest,
         firestoreAuth: FirebaseAuth,
         credentialManager: CredentialManager,
     ): LoginRepository {
         return LoginRepositoryImpl(
             context,
-            getSignInWithGoogleOption,
+            getCredentialRequest,
             firestoreAuth,
             credentialManager,
         )

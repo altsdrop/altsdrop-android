@@ -14,6 +14,7 @@ import com.altsdrop.feature.ico.navigation.ICOScreen
 import com.altsdrop.feature.ico.navigation.icoScreen
 import com.altsdrop.feature.login.navigation.LoginScreen
 import com.altsdrop.feature.login.navigation.loginScreen
+import com.altsdrop.feature.login.navigation.navigateToLoginScreen
 import com.altsdrop.feature.news.navigation.ArticleDetailsScreen
 import com.altsdrop.feature.news.navigation.NewsNavigationRoute
 import com.altsdrop.feature.news.navigation.NewsScreen
@@ -75,7 +76,11 @@ fun HomeScreenNavHost(
             },
             navigateBack = navHostController::popBackStack
         )
-        settingsScreen()
+        settingsScreen(
+            navigateToLogin = {
+                navHostController.navigateToLoginScreen()
+            }
+        )
         newsScreen(
             navigateToArticleDetails = { slug ->
                 navHostController.navigate(

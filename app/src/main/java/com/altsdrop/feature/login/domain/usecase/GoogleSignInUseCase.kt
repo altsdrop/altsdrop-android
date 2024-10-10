@@ -13,7 +13,7 @@ class GoogleSignInUseCase @Inject constructor(
                 SignInState.Success
             },
             onFailure = {
-                SignInState.Error
+                SignInState.Error(it.message ?: "Unknown Error")
             }
         )
     }

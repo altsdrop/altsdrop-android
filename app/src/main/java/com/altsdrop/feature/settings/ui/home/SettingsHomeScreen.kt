@@ -25,6 +25,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,8 +53,15 @@ import com.altsdrop.feature.settings.ui.home.SettingsHomeScreenUiEvent.OnSetting
 @Composable
 fun SettingsHomeRoute(
     viewModel: SettingsHomeViewModel = hiltViewModel(),
+    navigateToLogin: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(uiState.isUserLoggedIn) {
+        if (!uiState.isUserLoggedIn) {
+            navigateToLogin()
+        }
+    }
 
     SettingsHomeScreen(
         uiState = uiState,
@@ -122,7 +130,10 @@ fun SettingsHomeScreen(
                         }
 
                         is Setting.AlertDialog -> {
-                            DialogSetting(setting = setting)
+                            DialogSetting(
+                                setting = setting,
+                                onEvent = onEvent
+                            )
                         }
 
                         is Setting.Intent -> {}
@@ -196,7 +207,10 @@ fun InputDialogSetting(
 }
 
 @Composable
-fun DialogSetting(setting: Setting.AlertDialog) {
+fun DialogSetting(
+    setting: Setting.AlertDialog,
+    onEvent: (SettingsHomeScreenUiEvent) -> Unit
+) {
     var showDialog by remember { mutableStateOf(false) }
 
     Row(
@@ -222,7 +236,14 @@ fun DialogSetting(setting: Setting.AlertDialog) {
     AltsdropAlertDialog(
         showDialog = showDialog,
         onDismiss = { showDialog = false },
-        onConfirm = { showDialog = false },
+        onConfirm = {
+            showDialog = false
+            onEvent(
+                SettingsHomeScreenUiEvent.OnAlertDialogConfirm(
+                    settingId = setting.id
+                )
+            )
+        },
         title = setting.title,
         text = setting.message,
         icon = setting.icon,

@@ -9,6 +9,7 @@ import com.altsdrop.feature.settings.domain.usecase.GetUserDetailsUseCase
 import com.altsdrop.feature.settings.domain.usecase.PostBugReportUseCase
 import com.altsdrop.feature.settings.domain.usecase.PostFeedbackUseCase
 import com.altsdrop.feature.settings.util.SettingConstants
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +24,7 @@ class SettingsHomeViewModel @Inject constructor(
     private val getSettingsUseCase: GetSettingsUseCase,
     private val postFeedbackUseCase: PostFeedbackUseCase,
     private val postBugReportUseCase: PostBugReportUseCase,
+    private val firebaseAuth: FirebaseAuth,
     private val toastManager: ToastManager
 ) : ViewModel() {
 
@@ -72,6 +74,18 @@ class SettingsHomeViewModel @Inject constructor(
 
                     SettingConstants.REPORT_A_BUG -> {
                         submitBugReport(settingsHomeScreenUiEvent.inputText)
+                    }
+                }
+            }
+            is SettingsHomeScreenUiEvent.OnAlertDialogConfirm -> {
+                when (settingsHomeScreenUiEvent.settingId) {
+                    SettingConstants.LOGOUT -> {
+                        firebaseAuth.signOut()
+                        _uiState.update {
+                            it.copy(
+                                isUserLoggedIn = false
+                            )
+                        }
                     }
                 }
             }

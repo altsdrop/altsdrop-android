@@ -13,8 +13,12 @@ fun NavController.navigateToSettings() {
     navigate(SettingsScreen)
 }
 
-fun NavGraphBuilder.settingsScreen() {
+fun NavGraphBuilder.settingsScreen(
+    navigateToLogin: () -> Unit
+) {
     composable<SettingsScreen> {
-        SettingsHomeRoute()
+        SettingsHomeRoute(
+            navigateToLogin = navigateToLogin
+        )
     }
 }

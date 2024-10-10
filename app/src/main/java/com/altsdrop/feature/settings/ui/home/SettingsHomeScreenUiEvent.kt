@@ -6,4 +6,7 @@ sealed interface SettingsHomeScreenUiEvent {
         val settingId: String,
         val inputText: String
     ) : SettingsHomeScreenUiEvent
+    data class OnAlertDialogConfirm(
+        val settingId: String
+    ) : SettingsHomeScreenUiEvent
 }

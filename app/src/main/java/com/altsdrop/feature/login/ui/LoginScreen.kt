@@ -1,5 +1,6 @@
 package com.altsdrop.feature.login.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -40,9 +42,19 @@ fun LoginRoute(
         onLoginClick = viewModel::onSignInWithGoogleClick
     )
 
+    val context = LocalContext.current
+
     LaunchedEffect(uiState.signInState) {
         if (uiState.signInState == SignInState.Success) {
             navigateToHomeScreen()
+        }
+        if (uiState.signInState is SignInState.Error) {
+            Toast.makeText(
+                context,
+                (uiState.signInState as SignInState.Error).message,
+                Toast.LENGTH_SHORT
+
+            ).show()
         }
     }
 }

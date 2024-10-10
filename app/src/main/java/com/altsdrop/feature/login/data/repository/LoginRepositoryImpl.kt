@@ -1,15 +1,14 @@
 package com.altsdrop.feature.login.data.repository
 
 import android.content.Context
+import androidx.credentials.Credential
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
-import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
 import com.altsdrop.feature.login.domain.repository.LoginRepository
-import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential.Companion.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.Dispatchers
@@ -20,64 +19,42 @@ import javax.inject.Inject
 
 class LoginRepositoryImpl @Inject constructor(
     private val context: Context,
-    private val getSignInWithGoogleOption: GetSignInWithGoogleOption,
+    private val getCredentialRequest: GetCredentialRequest,
     private val firestoreAuth: FirebaseAuth,
     private val credentialManager: CredentialManager,
 ) : LoginRepository {
     override suspend fun googleSignIn(): Result<Boolean> = withContext(Dispatchers.IO) {
-        val request: GetCredentialRequest = GetCredentialRequest.Builder()
-            .addCredentialOption(getSignInWithGoogleOption)
-            .build()
-
-        return@withContext try {
-            val result = credentialManager.getCredential(
-                request = request,
-                context = WeakReference(context).get()!!,
-            )
-
-            val getGoogleIdToken = handleSignIn(result)
-            if (getGoogleIdToken != null) {
-                val firebaseCredential = GoogleAuthProvider.getCredential(getGoogleIdToken, null)
-                val credential = firestoreAuth.signInWithCredential(firebaseCredential).await()
-                if (credential.user != null) {
-                    Result.success(true)
-                } else {
-                    Result.failure(Exception("Failed to login"))
-                }
+        try {
+            val credential = getCredentialFromCredentialManager()
+            if (credential is CustomCredential && credential.type == TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+                val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
+                val googleIdToken = googleIdTokenCredential.idToken
+                signInWithGoogle(googleIdToken)
+                Result.success(true)
             } else {
-                Result.failure(Exception("Failed to login"))
+                Result.failure(Exception("Unexpected Credential Type"))
             }
-        } catch (e: GetCredentialException) {
-            Result.failure(Exception("Failed to login"))
+        } catch (e: Exception) {
+            Result.failure(e)
         }
     }
 
-    private fun handleSignIn(result: GetCredentialResponse): String? {
-        // Handle the successfully returned credential.
-        when (val credential = result.credential) {
-            is CustomCredential -> {
-                if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
-                    try {
-                        // Use googleIdTokenCredential and extract id to validate and
-                        // authenticate on your server.
-                        val googleIdTokenCredential = GoogleIdTokenCredential
-                            .createFrom(credential.data)
-
-                        return googleIdTokenCredential.idToken
-                    } catch (e: GoogleIdTokenParsingException) {
-                        return null
-                    }
-                }
-                else {
-                    // Catch any unrecognized credential type here.
-                    return null
-                }
-            }
-            else -> {
-                // Catch any unrecognized credential type here.
-                return null
-            }
-        }
+    private suspend fun signInWithGoogle(idToken: String) {
+        val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
+        firestoreAuth.signInWithCredential(firebaseCredential).await()
     }
 
+    private suspend fun getCredentialFromCredentialManager(): Credential? {
+        val contextRef = WeakReference(context).get()
+            ?: throw IllegalStateException("Context is no longer available.")
+
+        return try {
+            credentialManager.getCredential(
+                request = getCredentialRequest,
+                context = contextRef
+            ).credential
+        } catch (exception: GetCredentialException) {
+            throw exception
+        }
+    }
 }

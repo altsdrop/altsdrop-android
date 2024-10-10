@@ -8,5 +8,6 @@ import com.altsdrop.feature.settings.domain.model.User
 data class SettingsHomeScreenUiState(
     val user: User = User(),
     val categories: List<SettingsCategory> = emptyList(),
-    val showDialog: Boolean = false
+    val showDialog: Boolean = false,
+    val isUserLoggedIn: Boolean = true
 )
