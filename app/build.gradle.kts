@@ -11,13 +11,13 @@ plugins {
 
 android {
     namespace = "com.altsdrop"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.altsdrop"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
+        targetSdk = 35
+        versionCode = 2
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -95,6 +95,12 @@ dependencies {
     implementation(libs.coil.compose)
 
     implementation(libs.google.gson)
+
+    //In-app Updates
+    implementation(libs.play.app.update)
+
+    // For Kotlin users also add the Kotlin extensions library for Play In-App Update:
+    implementation(libs.play.app.update.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
