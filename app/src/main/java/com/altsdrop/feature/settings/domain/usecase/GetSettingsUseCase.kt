@@ -2,18 +2,24 @@ package com.altsdrop.feature.settings.domain.usecase
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.altsdrop.R
+import com.altsdrop.core.util.PreferencesKeys
 import com.altsdrop.core.util.Resources
 import com.altsdrop.feature.settings.domain.model.Setting
 import com.altsdrop.feature.settings.domain.model.SettingsCategory
 import com.altsdrop.feature.settings.domain.repository.RemoteSettingsRepository
 import com.altsdrop.feature.settings.util.SettingConstants
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class GetSettingsUseCase @Inject constructor(
     private val resources: Resources,
+    private val dataStore: DataStore<Preferences>,
     private val remoteSettingsRepository: RemoteSettingsRepository
 ) {
     suspend operator fun invoke(): List<SettingsCategory> = withContext(Dispatchers.IO) {
@@ -26,17 +32,21 @@ class GetSettingsUseCase @Inject constructor(
         )
     }
 
-    private fun generalSettings() = SettingsCategory(
+    private suspend fun generalSettings() = SettingsCategory(
         categoryName = resources.getString(R.string.settings_category_general),  // settings_category_general
         settings = listOf(
             Setting.Toggle(
                 id = SettingConstants.PUSH_NOTIFICATIONS,
                 name = resources.getString(R.string.settings_push_notifications),  // settings_push_notifications
                 description = "Enable or disable push notifications",
-                toggleState = true
+                toggleState = getNotificationEnabled()
             )
         )
     )
+
+    private suspend fun getNotificationEnabled() = dataStore.data
+        .map { preferences -> preferences[PreferencesKeys.NOTIFICATION_ENABLED] ?: false }
+        .first()
 
     private suspend fun communitySettings() = SettingsCategory(
         categoryName = resources.getString(R.string.settings_category_community),  // settings_category_community

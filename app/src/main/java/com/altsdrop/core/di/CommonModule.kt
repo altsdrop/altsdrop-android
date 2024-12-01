@@ -1,6 +1,8 @@
 package com.altsdrop.core.di
 
 import android.content.Context
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.preferencesDataStoreFile
 import com.altsdrop.core.util.Resources
 import com.altsdrop.core.util.ResourcesImpl
 import com.altsdrop.core.util.ToastManager
@@ -34,4 +36,11 @@ object CommonModule {
     fun provideGson(): Gson {
         return Gson()
     }
+
+    @Provides
+    @Singleton
+    fun provideDataStore(@ApplicationContext context: Context) =
+        PreferenceDataStoreFactory.create {
+            context.preferencesDataStoreFile("settings_preferences")
+        }
 }

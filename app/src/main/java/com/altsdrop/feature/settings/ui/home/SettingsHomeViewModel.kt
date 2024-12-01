@@ -8,6 +8,7 @@ import com.altsdrop.feature.settings.domain.usecase.GetSettingsUseCase
 import com.altsdrop.feature.settings.domain.usecase.GetUserDetailsUseCase
 import com.altsdrop.feature.settings.domain.usecase.PostBugReportUseCase
 import com.altsdrop.feature.settings.domain.usecase.PostFeedbackUseCase
+import com.altsdrop.feature.settings.domain.usecase.UpdateNotificationSettingUseCase
 import com.altsdrop.feature.settings.util.SettingConstants
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +25,7 @@ class SettingsHomeViewModel @Inject constructor(
     private val getSettingsUseCase: GetSettingsUseCase,
     private val postFeedbackUseCase: PostFeedbackUseCase,
     private val postBugReportUseCase: PostBugReportUseCase,
+    private val updateNotificationSettingUseCase: UpdateNotificationSettingUseCase,
     private val firebaseAuth: FirebaseAuth,
     private val toastManager: ToastManager
 ) : ViewModel() {
@@ -128,6 +130,7 @@ class SettingsHomeViewModel @Inject constructor(
                                 if (setting.id == SettingConstants.PUSH_NOTIFICATIONS &&
                                     setting is Setting.Toggle
                                 ) {
+                                    updateNotificationSettingUseCase.invoke(!setting.toggleState)
                                     setting.copy(toggleState = !setting.toggleState)
                                 } else {
                                     setting

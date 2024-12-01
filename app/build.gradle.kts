@@ -73,6 +73,8 @@ dependencies {
     implementation(libs.play.services.auth)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.config)
+    implementation(libs.firebase.messaging)
+    implementation(libs.google.firebase.analytics)
 
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
@@ -101,6 +103,9 @@ dependencies {
 
     // For Kotlin users also add the Kotlin extensions library for Play In-App Update:
     implementation(libs.play.app.update.ktx)
+
+    //Preference Datastore
+    implementation(libs.androidx.datastore.preferences)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

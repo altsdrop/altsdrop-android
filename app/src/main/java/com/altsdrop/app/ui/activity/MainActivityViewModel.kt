@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.altsdrop.app.navigation.HomeScreen
 import com.altsdrop.core.domain.CheckUserLoginUseCase
 import com.altsdrop.feature.login.navigation.LoginScreen
+import com.altsdrop.feature.settings.domain.usecase.UpdateNotificationSettingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-    private val checkUserLoginUseCase: CheckUserLoginUseCase
+    private val checkUserLoginUseCase: CheckUserLoginUseCase,
+    private val updateNotificationSettingUseCase: UpdateNotificationSettingUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(
         MainActivityUiState(null)
@@ -36,6 +38,12 @@ class MainActivityViewModel @Inject constructor(
                     it.copy(startDestination = LoginScreen)
                 }
             }
+        }
+    }
+
+    fun enableNotificationSetting() {
+        viewModelScope.launch {
+            updateNotificationSettingUseCase.invoke(true)
         }
     }
 
