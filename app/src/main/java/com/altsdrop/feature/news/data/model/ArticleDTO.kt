@@ -12,7 +12,8 @@ data class ArticleDTO(
     val publishedDate: Timestamp = Timestamp.now(),
     val tags: List<String> = emptyList(),
     val title: String = "",
-    val slug: String = ""
+    val slug: String = "",
+    val readingTime: Int = 0
 )
 
 fun ArticleDTO.toDomain() = Article(
@@ -23,5 +24,6 @@ fun ArticleDTO.toDomain() = Article(
     publishedDate = convertFirebaseTimestamp(publishedDate),
     tags = tags,
     title = title,
-    slug = slug
+    slug = slug,
+    readingTime = readingTime
 )

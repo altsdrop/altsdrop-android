@@ -18,13 +18,17 @@ fun convertFirebaseTimestamp(firebaseTimestamp: Timestamp): String {
     val diffInWeeks = diffInDays / 7
 
     return when {
-        diffInMinutes < 60 -> "${diffInMinutes}m"
-        diffInHours < 24 -> "${diffInHours}h"
-        diffInDays < 7 -> "${diffInDays}d"
-        diffInWeeks < 52 -> "${diffInWeeks}w"
+        diffInMinutes <= 1 -> "Just now"
+        diffInMinutes < 60 -> "$diffInMinutes mins ago"
+        diffInHours.toInt() == 1 -> "$diffInHours hour ago"
+        diffInHours < 24 -> "$diffInHours hours ago"
+        diffInDays.toInt() == 1 -> "$diffInDays day ago"
+        diffInDays < 7 -> "$diffInDays days ago"
+        diffInWeeks.toInt() == 1 -> "$diffInWeeks week ago"
+        diffInWeeks < 52 -> "$diffInWeeks weeks ago"
         else -> {
             // If more than a year, return the formatted date
-            val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+            val dateFormat = SimpleDateFormat("dd MM yyyy", Locale.getDefault())
             dateFormat.format(Date(timestampInMillis))
         }
     }

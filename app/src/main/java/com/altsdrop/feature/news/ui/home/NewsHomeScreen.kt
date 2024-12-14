@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -33,7 +37,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.altsdrop.R
+import com.altsdrop.core.ui.component.TextChip
 import com.altsdrop.feature.news.domain.model.Article
+import com.altsdrop.feature.news.domain.model.previewArticle
 
 @Composable
 fun NewsHomeRoute(
@@ -56,8 +62,8 @@ fun NewsHomeScreen(
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background)
-            .fillMaxSize()
             .padding(start = 16.dp, end = 16.dp)
+            .fillMaxSize()
     ) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -92,6 +98,7 @@ fun NewsHomeScreen(
 
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ArticleCard(
     article: Article,
@@ -100,14 +107,27 @@ fun ArticleCard(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight().clickable {
+            .wrapContentHeight()
+            .clickable {
                 onArticleClicked()
             },
         horizontalArrangement = Arrangement.spacedBy(16.dp) // Start alignment, but text will expand
     ) {
+        AsyncImage(
+            modifier = Modifier
+                .size(80.dp)
+                .align(Alignment.CenterVertically)
+                .clip(RoundedCornerShape(8.dp)),
+            model = article.headerImage,
+            alignment = Alignment.Center,
+            contentScale = ContentScale.FillBounds,
+            contentDescription = "article image"
+        )
+
         Column(
             modifier = Modifier
                 .weight(1f)
+                .align(Alignment.CenterVertically)
         ) {
             Text(
                 modifier = Modifier
@@ -121,26 +141,46 @@ fun ArticleCard(
                 textAlign = TextAlign.Start
             )
 
-            Text(
-                modifier = Modifier
-                    .wrapContentWidth(),
-                text = article.publishedDate.toString(),
-                color = MaterialTheme.colorScheme.onSurface.copy(
-                    alpha = 0.6f
-                ),
-                style = MaterialTheme.typography.bodySmall,
-                textAlign = TextAlign.Start
-            )
-        }
+            Spacer(modifier = Modifier.height(4.dp))
 
-        AsyncImage(
-            modifier = Modifier
-                .size(80.dp)
-                .clip(RoundedCornerShape(8.dp)),
-            model = article.headerImage,
-            contentScale = ContentScale.FillBounds,
-            contentDescription = "article image"
-        )
+            Row(
+                modifier = Modifier
+                    .wrapContentWidth()
+            ) {
+
+
+                Column(
+                    modifier = Modifier
+                        .wrapContentSize()
+                        .align(Alignment.CenterVertically),
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    TextChip(
+                        text = if (article.readingTime == 1) "${article.readingTime} min read" else
+                            "${article.readingTime} mins read",
+                        borderColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        backgroundColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                            alpha = 0f
+                        ),
+                        textColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+
+                Text(
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                        .weight(1f),
+                    text = article.publishedDate,
+                    color = MaterialTheme.colorScheme.onSurface.copy(
+                        alpha = 0.6f
+                    ),
+                    style = MaterialTheme.typography.bodySmall,
+                    textAlign = TextAlign.End,
+                )
+
+                Spacer(modifier = Modifier.width(4.dp))
+            }
+        }
     }
 }
 
@@ -163,13 +203,6 @@ fun NewsHomeScreenPreview() {
 @Composable
 fun ArticleCardPreview() {
     ArticleCard(
-        article = Article(
-            title = "Blast L2",
-            headerImage = "",
-            categories = listOf(
-                "Category 1",
-                "Category 2"
-            )
-        )
+        article = previewArticle
     )
 }

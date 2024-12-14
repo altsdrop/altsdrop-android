@@ -8,7 +8,8 @@ data class Article(
     val publishedDate: String = "",
     val tags: List<String> = emptyList(),
     val title: String = "",
-    val slug: String = ""
+    val slug: String = "",
+    val readingTime: Int = 0
 )
 
 val previewArticle = Article(
@@ -18,5 +19,6 @@ val previewArticle = Article(
     title = "Example Article Title",
     tags = listOf("ETH", "Bitcoin"),
     publishedDate = "21-May-2024",
+    readingTime = 5,
     content = "<p>In this post, we'll explore how to create a structured JSON response for blog posts...</p><img src='https://example.com/images/post-image1.jpg' alt='Example image' /><p>This is how images can be embedded in the body content.</p>"
 )
