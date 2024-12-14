@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -116,14 +115,19 @@ class HomeActivity : ComponentActivity() {
     private fun checkAppUpdate() {
         val appUpdateManager = AppUpdateManagerFactory.create(this)
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+        var updatePriority = 0
 
         val activityResultLauncher =
             registerForActivityResult(StartIntentSenderForResult()) { result: ActivityResult ->
-                // handle callback
                 if (result.resultCode != RESULT_OK) {
-                    Log.e("MainActivity", "Update flow failed! Result code: ${result.resultCode}")
-                    // If the update is canceled or fails,
-                    // you can request to start the update again.
+                    if (updatePriority >= 4) {
+                        Toast.makeText(
+                            this,
+                            "Please update the app to use it.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        finish()
+                    }
                 }
             }
 
@@ -131,13 +135,10 @@ class HomeActivity : ComponentActivity() {
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                 && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
             ) {
+                updatePriority = appUpdateInfo.updatePriority()
                 appUpdateManager.startUpdateFlowForResult(
-                    // Pass the intent that is returned by 'getAppUpdateInfo()'.
                     appUpdateInfo,
-                    // an activity result launcher registered via registerForActivityResult
                     activityResultLauncher,
-                    // Or pass 'AppUpdateType.FLEXIBLE' to newBuilder() for
-                    // flexible updates.
                     AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE).build()
                 )
             }
