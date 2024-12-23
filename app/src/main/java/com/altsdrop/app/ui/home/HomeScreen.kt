@@ -1,5 +1,8 @@
 package com.altsdrop.app.ui.home
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -43,10 +46,19 @@ fun HomeScreen(
 ) {
     val navHostController = rememberNavController()
 
-    Scaffold(
+    Column(
         modifier = Modifier
             .fillMaxSize(),
-        bottomBar = {
+    ) {
+        HomeScreenNavHost(
+            modifier = Modifier.weight(1f),
+            navHostController = navHostController,
+            startDestination = uiState.tabs.first { it.isSelected }.homeScreenTab
+        )
+
+        Column(
+            verticalArrangement = Arrangement.Bottom
+        ) {
             HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -57,7 +69,6 @@ fun HomeScreen(
             AltsdropNavigationBar(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .windowInsetsPadding(NavigationBarDefaults.windowInsets)
                     .wrapContentHeight()
                     .selectableGroup(),
             ) {
@@ -82,11 +93,6 @@ fun HomeScreen(
                 }
             }
         }
-    ) { innerPadding ->
-        HomeScreenNavHost(
-            modifier = Modifier.padding(innerPadding),
-            navHostController = navHostController,
-            startDestination = uiState.tabs.first { it.isSelected }.homeScreenTab
-        )
+
     }
 }

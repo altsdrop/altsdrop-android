@@ -1,4 +1,4 @@
-package com.altsdrop.feature.login.ui
+package com.altsdrop.feature.login.ui.login
 
 import com.altsdrop.feature.login.domain.model.SignInState
 

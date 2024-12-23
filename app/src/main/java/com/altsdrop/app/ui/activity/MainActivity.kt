@@ -2,10 +2,12 @@ package com.altsdrop.app.ui.activity
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Color.TRANSPARENT
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResult
@@ -13,6 +15,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.StartIntentSenderForResult
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
@@ -41,18 +45,25 @@ class HomeActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
+            enableEdgeToEdge(
+                statusBarStyle = SystemBarStyle.auto(TRANSPARENT, TRANSPARENT),
+                navigationBarStyle = SystemBarStyle.auto(TRANSPARENT, TRANSPARENT)
+            )
             AltsdropTheme {
                 val navHostController = rememberNavController()
-                uiState.startDestination?.let { startDestination ->
-                    MainNavHost(
-                        modifier = Modifier.fillMaxSize(),
-                        navHostController = navHostController,
-                        startDestination = startDestination
-                    )
+                Scaffold(
+                    bottomBar = {},
+                    topBar = {},
+                ) {
+                    uiState.startDestination?.let { startDestination ->
+                        MainNavHost(
+                            modifier = Modifier.padding(it).fillMaxSize(),
+                            navHostController = navHostController,
+                            startDestination = startDestination
+                        )
+                    }
                 }
             }
         }

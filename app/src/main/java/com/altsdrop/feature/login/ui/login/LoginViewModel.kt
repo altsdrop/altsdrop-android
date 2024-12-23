@@ -1,4 +1,4 @@
-package com.altsdrop.feature.login.ui
+package com.altsdrop.feature.login.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
