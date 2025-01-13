@@ -54,8 +54,6 @@ class AirdropHomeViewModel @Inject constructor(
         viewModelScope.launch {
             val featuredAirdrops: ArrayList<Airdrop> = arrayListOf()
             featuredAirdrops.addAll(getFeaturedAirdropsUseCase())
-            featuredAirdrops.addAll(getFeaturedAirdropsUseCase())
-            featuredAirdrops.addAll(getFeaturedAirdropsUseCase())
 
             _uiState.update {
                 it.copy(

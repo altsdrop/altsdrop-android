@@ -5,25 +5,23 @@ import com.altsdrop.feature.news.util.convertFirebaseTimestamp
 import com.google.firebase.Timestamp
 
 data class ArticleDTO(
-    val id: String = "",
     val headerImage: String = "",
-    val categories: List<String> = emptyList(),
+    val category: String = "",
     val content: String = "",
-    val publishedDate: Timestamp = Timestamp.now(),
+    val publishedDateTime: Timestamp = Timestamp.now(),
     val tags: List<String> = emptyList(),
     val title: String = "",
     val slug: String = "",
-    val readingTime: Int = 0
+    val readTime: Int = 0
 )
 
 fun ArticleDTO.toDomain() = Article(
-    id = id,
     headerImage = headerImage,
-    categories = categories,
+    category = category,
     content = content,
-    publishedDate = convertFirebaseTimestamp(publishedDate),
+    publishedDateTime = convertFirebaseTimestamp(publishedDateTime),
     tags = tags,
     title = title,
     slug = slug,
-    readingTime = readingTime
+    readTime = readTime
 )

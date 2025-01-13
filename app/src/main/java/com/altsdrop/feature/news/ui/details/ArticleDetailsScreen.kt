@@ -1,5 +1,6 @@
 package com.altsdrop.feature.news.ui.details
 
+import android.webkit.WebView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -45,6 +46,7 @@ import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -183,7 +185,37 @@ fun ArticleDetails(article: Article) {
             }
         }
 
-        HtmlTextWithImagesAndLinks(article.content)
+        AndroidView(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(0.dp),
+            factory = { context ->
+                WebView(context).apply {
+                    // Load HTML content from the string
+                    loadData(
+                        """
+                <html>
+                    <head>
+                        <style>
+                            body {
+                                margin: 0;
+                                padding: 0;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        ${article.content}
+                    </body>
+                </html>
+            """, "text/html", "UTF-8"
+                    )
+                    setPadding(0, 0, 0, 0)
+                    //  settings.javaScriptEnabled = true // Enable JavaScript if needed
+                }
+            }
+        )
+
+        // HtmlTextWithImagesAndLinks(article.content)
     }
 }
 

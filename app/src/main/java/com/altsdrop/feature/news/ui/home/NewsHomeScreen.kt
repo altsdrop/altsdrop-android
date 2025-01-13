@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -83,7 +82,7 @@ fun NewsHomeScreen(
             items(
                 items = uiState.articles,
                 key = { article ->
-                    article.id
+                    article.slug
                 }
             ) { article ->
                 ArticleCard(
@@ -98,7 +97,6 @@ fun NewsHomeScreen(
 
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ArticleCard(
     article: Article,
@@ -120,7 +118,7 @@ fun ArticleCard(
                 .clip(RoundedCornerShape(8.dp)),
             model = article.headerImage,
             alignment = Alignment.Center,
-            contentScale = ContentScale.FillBounds,
+            contentScale = ContentScale.Crop,
             contentDescription = "article image"
         )
 
@@ -156,8 +154,8 @@ fun ArticleCard(
                     horizontalAlignment = Alignment.Start
                 ) {
                     TextChip(
-                        text = if (article.readingTime == 1) "${article.readingTime} min read" else
-                            "${article.readingTime} mins read",
+                        text = if (article.readTime == 1) "${article.readTime} min read" else
+                            "${article.readTime} mins read",
                         borderColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         backgroundColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(
                             alpha = 0f
@@ -170,7 +168,7 @@ fun ArticleCard(
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
                         .weight(1f),
-                    text = article.publishedDate,
+                    text = article.publishedDateTime,
                     color = MaterialTheme.colorScheme.onSurface.copy(
                         alpha = 0.6f
                     ),
