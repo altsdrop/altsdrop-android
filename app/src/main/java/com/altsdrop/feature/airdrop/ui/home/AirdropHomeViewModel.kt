@@ -26,6 +26,7 @@ class AirdropHomeViewModel @Inject constructor(
 
     init {
         getFeaturedAirdrops()
+        getNewAirdrops()
     }
 
     private fun getFeaturedAirdrops() {
