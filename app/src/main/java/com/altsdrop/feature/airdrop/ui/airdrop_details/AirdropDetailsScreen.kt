@@ -1,12 +1,18 @@
 package com.altsdrop.feature.airdrop.ui.airdrop_details
 
-import android.content.Intent
-import android.net.Uri
+import android.text.SpannableString
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.URLSpan
+import android.view.View
+import android.widget.TextView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.aspectRatio
@@ -32,27 +38,29 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.text.HtmlCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.altsdrop.R
 import com.altsdrop.app.ui.theme.AltsdropTheme
+import com.altsdrop.app.ui.theme.hyperLink
 import com.altsdrop.core.ui.component.ErrorInfo
 import com.altsdrop.core.ui.component.TextChip
+import com.altsdrop.core.util.openCustomTab
 import com.altsdrop.feature.airdrop.domain.model.Airdrop
 import com.altsdrop.feature.airdrop.domain.model.previewAirdrop
 import com.altsdrop.feature.airdrop.utils.resolveDrawableByTitle
@@ -205,8 +213,7 @@ fun AirdropDetails(airdrop: Airdrop) {
                 TextChip(
                     text = tag.title,
                     onClick = {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(tag.url))
-                        context.startActivity(intent)
+                        context.openCustomTab(tag.url)
                     },
                     borderColor = MaterialTheme.colorScheme.onBackground,
                     backgroundColor = MaterialTheme.colorScheme.onBackground.copy(
@@ -233,8 +240,7 @@ fun AirdropDetails(airdrop: Airdrop) {
                 TextChip(
                     text = tag.title,
                     onClick = {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(tag.url))
-                        context.startActivity(intent)
+                        context.openCustomTab(tag.url)
                     },
                     borderColor = MaterialTheme.colorScheme.onBackground,
                     backgroundColor = MaterialTheme.colorScheme.onBackground.copy(
@@ -256,22 +262,60 @@ fun AirdropDetails(airdrop: Airdrop) {
         )
 
         airdrop.steps.forEachIndexed { index, step ->
-            Text(
-                text = buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.9f),
-                            fontWeight = FontWeight.Bold
-                        )
-                    ) {
-                        append("${index + 1}. ")
-                    }
-                    append(step)  // Append the normal text after the bold index
-                },
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f),
-            )
+            HtmlStepItem(index = index, html = step)
         }
+    }
+}
+
+@Composable
+fun HtmlStepItem(index: Int, html: String) {
+    val context = LocalContext.current
+
+    Row(modifier = Modifier) {
+        Text(
+            text = "${index + 1}. ",
+            style = MaterialTheme.typography.bodyMedium.copy(
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.9f)
+            )
+        )
+
+        val textColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.9f).toArgb()
+
+        AndroidView(
+            factory = {
+                TextView(it).apply {
+                    movementMethod = LinkMovementMethod.getInstance()
+                    setTextColor(textColor)
+                }
+            },
+            update = { textView ->
+                val spanned = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                val spannable = SpannableString(spanned)
+
+                val urlSpans = spannable.getSpans(0, spannable.length, URLSpan::class.java)
+                urlSpans.forEach { span ->
+                    val start = spannable.getSpanStart(span)
+                    val end = spannable.getSpanEnd(span)
+                    val flags = spannable.getSpanFlags(span)
+                    spannable.removeSpan(span)
+                    spannable.setSpan(object : ClickableSpan() {
+                        override fun onClick(widget: View) {
+                            context.openCustomTab(span.url)
+                        }
+
+                        override fun updateDrawState(ds: TextPaint) {
+                            super.updateDrawState(ds)
+                            ds.isUnderlineText = false
+                            ds.color = hyperLink.toArgb()
+                        }
+                    }, start, end, flags)
+                }
+
+                textView.text = spannable
+            },
+            modifier = Modifier.weight(1f)
+        )
     }
 }
 

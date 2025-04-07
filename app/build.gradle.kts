@@ -80,6 +80,9 @@ dependencies {
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
 
+    //Browser
+    implementation(libs.androidx.browser)
+    implementation(libs.org.jsoup)
     //Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
@@ -114,4 +117,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
