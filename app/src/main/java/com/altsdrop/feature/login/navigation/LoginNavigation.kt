@@ -10,7 +10,11 @@ import kotlinx.serialization.Serializable
 object LoginScreen
 
 fun NavController.navigateToLoginScreen() {
-    navigate(LoginScreen)
+    navigate(LoginScreen) {
+        popUpTo(graph.id) {
+            inclusive = true
+        }
+    }
 }
 
 fun NavGraphBuilder.loginScreen(

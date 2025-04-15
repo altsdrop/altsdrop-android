@@ -8,16 +8,13 @@ import androidx.navigation.navOptions
 import com.altsdrop.app.ui.home.HomeScreenTab
 import com.altsdrop.feature.airdrop.navigation.AirdropDetailsScreen
 import com.altsdrop.feature.airdrop.navigation.AirdropNavigationRoute
-import com.altsdrop.feature.airdrop.navigation.AirdropScreen
 import com.altsdrop.feature.airdrop.navigation.airdropScreen
-import com.altsdrop.feature.ico.navigation.ICOScreen
 import com.altsdrop.feature.ico.navigation.icoScreen
 import com.altsdrop.feature.login.navigation.LoginScreen
 import com.altsdrop.feature.login.navigation.loginScreen
 import com.altsdrop.feature.login.navigation.navigateToLoginScreen
 import com.altsdrop.feature.news.navigation.ArticleDetailsScreen
 import com.altsdrop.feature.news.navigation.NewsNavigationRoute
-import com.altsdrop.feature.news.navigation.NewsScreen
 import com.altsdrop.feature.news.navigation.newsScreen
 import com.altsdrop.feature.settings.navigation.SettingsScreen
 import com.altsdrop.feature.settings.navigation.settingsScreen
@@ -33,7 +30,11 @@ fun MainNavHost(
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        homeScreen()
+        homeScreen(
+            navigateToLogin = {
+                navHostController.navigateToLoginScreen()
+            }
+        )
         loginScreen(
             navigateToHomeScreen = {
                 navHostController.navigateToHomeScreen(
@@ -53,10 +54,11 @@ fun HomeScreenNavHost(
     modifier: Modifier = Modifier,
     navHostController: NavHostController,
     startDestination: HomeScreenTab,
+    navigateToLogin: () -> Unit
 ) {
     val destination: Any = when (startDestination) {
         HomeScreenTab.Airdrop -> AirdropNavigationRoute
-     //   HomeScreenTab.ICO -> ICOScreen
+        //   HomeScreenTab.ICO -> ICOScreen
         HomeScreenTab.News -> NewsNavigationRoute
         HomeScreenTab.Settings -> SettingsScreen
     }
@@ -77,9 +79,7 @@ fun HomeScreenNavHost(
             navigateBack = navHostController::popBackStack
         )
         settingsScreen(
-            navigateToLogin = {
-                navHostController.navigateToLoginScreen()
-            }
+            navigateToLogin = navigateToLogin
         )
         newsScreen(
             navigateToArticleDetails = { slug ->

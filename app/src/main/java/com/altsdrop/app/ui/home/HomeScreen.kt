@@ -2,18 +2,13 @@ package com.altsdrop.app.ui.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBarDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -29,20 +24,23 @@ import com.altsdrop.app.ui.component.AltsdropNavigationItem
 
 @Composable
 fun HomeRoute(
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    navigateToLogin: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     HomeScreen(
         uiState = uiState,
-        onTabClicked = viewModel::onTabClicked
+        onTabClicked = viewModel::onTabClicked,
+        navigateToLogin = navigateToLogin
     )
 }
 
 @Composable
 fun HomeScreen(
     uiState: HomeScreenUiState,
-    onTabClicked: (Tab) -> Unit
+    onTabClicked: (Tab) -> Unit,
+    navigateToLogin: () -> Unit
 ) {
     val navHostController = rememberNavController()
 
@@ -53,7 +51,8 @@ fun HomeScreen(
         HomeScreenNavHost(
             modifier = Modifier.weight(1f),
             navHostController = navHostController,
-            startDestination = uiState.tabs.first { it.isSelected }.homeScreenTab
+            startDestination = uiState.tabs.first { it.isSelected }.homeScreenTab,
+            navigateToLogin = navigateToLogin
         )
 
         Column(
