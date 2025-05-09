@@ -3,6 +3,7 @@ package com.altsdrop.core.firebase.auth.di
 import android.content.Context
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
+import com.altsdrop.R
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -29,11 +30,12 @@ object FirebaseAuthModule {
     }
 
     @Provides
-    fun provideGetGoogleIdOption(): GetGoogleIdOption = GetGoogleIdOption
-        .Builder()
-        .setFilterByAuthorizedAccounts(false)
-        .setServerClientId("827421645026-eqplc9gpikqb48joc2r2bmoev8o57e8e.apps.googleusercontent.com")
-        .build()
+    fun provideGetGoogleIdOption(@ApplicationContext context: Context): GetGoogleIdOption =
+        GetGoogleIdOption
+            .Builder()
+            .setFilterByAuthorizedAccounts(false)
+            .setServerClientId(context.getString(R.string.default_web_client_id))
+            .build()
 
     @Provides
     fun provideGetCredentialRequest(
