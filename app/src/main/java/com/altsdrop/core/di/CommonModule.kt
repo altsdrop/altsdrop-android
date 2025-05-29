@@ -3,6 +3,8 @@ package com.altsdrop.core.di
 import android.content.Context
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.altsdrop.core.domain.AppInfoProvider
+import com.altsdrop.core.domain.AppInfoProviderImpl
 import com.altsdrop.core.util.Resources
 import com.altsdrop.core.util.ResourcesImpl
 import com.altsdrop.core.util.ToastManager
@@ -43,4 +45,10 @@ object CommonModule {
         PreferenceDataStoreFactory.create {
             context.preferencesDataStoreFile("settings_preferences")
         }
+
+    @Provides
+    @Singleton
+    fun provideAppInfoProvider(@ApplicationContext context: Context): AppInfoProvider {
+        return AppInfoProviderImpl(context)
+    }
 }

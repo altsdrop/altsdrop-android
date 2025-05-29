@@ -6,4 +6,6 @@ data class Feedback(
     val message: String,
     val timestamp: Timestamp,
     val email: String,
+    val appVersionName: String = "Unknown",
+    val appVersionCode: Long = 0,
 )

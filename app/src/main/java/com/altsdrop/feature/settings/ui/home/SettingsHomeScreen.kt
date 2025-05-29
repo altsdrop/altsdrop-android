@@ -1,13 +1,14 @@
 package com.altsdrop.feature.settings.ui.home
 
 import android.content.Intent
-import android.net.Uri
+import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -39,7 +40,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -151,11 +154,43 @@ fun SettingsHomeScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }
+
+            item {
+                AppVersionInfo()
+            }
         }
-
-
     }
 }
+
+@Composable
+fun AppVersionInfo() {
+    val context = LocalContext.current
+    val packageInfo = remember {
+        context.packageManager.getPackageInfo(context.packageName, 0)
+    }
+
+    val versionName = packageInfo.versionName ?: "N/A"
+    val versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+        packageInfo.longVersionCode
+    } else {
+        @Suppress("DEPRECATION")
+        packageInfo.versionCode.toLong()
+    }
+
+    Text(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 16.dp),
+        text = "Version: $versionName ($versionCode)",
+        style = MaterialTheme.typography.bodyMedium.copy(
+            color = MaterialTheme.colorScheme.onBackground.copy(
+                alpha = 0.6f
+            )
+        ),
+        textAlign = TextAlign.Center
+    )
+}
+
 
 @Composable
 fun InputDialogSetting(
@@ -260,7 +295,7 @@ fun LinkSetting(setting: Setting.Link) {
         modifier = Modifier
             .wrapContentHeight()
             .clickable {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(setting.url))
+                val intent = Intent(Intent.ACTION_VIEW, setting.url.toUri())
                 context.startActivity(intent)
             }
             .padding(vertical = 8.dp),

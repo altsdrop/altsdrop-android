@@ -7,10 +7,14 @@ data class FeedbackDTO(
     val message: String,
     val timestamp: Timestamp,
     val email: String,
+    val appVersionName: String,
+    val appVersionCode: Long,
 )
 
 fun Feedback.toFeedbackDTO() = FeedbackDTO(
     message = message,
     timestamp = timestamp,
-    email = email
+    email = email,
+    appVersionName = appVersionName,
+    appVersionCode = appVersionCode,
 )
