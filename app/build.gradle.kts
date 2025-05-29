@@ -17,7 +17,7 @@ android {
         applicationId = "com.altsdrop.app"
         minSdk = 24
         targetSdk = 35
-        versionCode = 4
+        versionCode = 5
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -58,6 +58,7 @@ android {
             dimension = "environment"
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
+            resValue("string", "app_name", "AltsDrop Dev")
         }
         create("prod") {
             dimension = "environment"
