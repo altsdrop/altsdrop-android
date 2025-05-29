@@ -7,7 +7,7 @@ import com.altsdrop.core.util.Resources
 import com.altsdrop.core.util.ResourcesImpl
 import com.altsdrop.core.util.ToastManager
 import com.altsdrop.core.util.ToastManagerImpl
-import com.google.gson.Gson
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,8 +33,8 @@ object CommonModule {
 
     @Provides
     @Singleton
-    fun provideGson(): Gson {
-        return Gson()
+    fun provideMoshi(): Moshi {
+        return Moshi.Builder().build()
     }
 
     @Provides

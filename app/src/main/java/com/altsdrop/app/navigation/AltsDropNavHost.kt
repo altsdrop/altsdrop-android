@@ -9,7 +9,6 @@ import com.altsdrop.app.ui.home.HomeScreenTab
 import com.altsdrop.feature.airdrop.navigation.AirdropDetailsScreen
 import com.altsdrop.feature.airdrop.navigation.AirdropNavigationRoute
 import com.altsdrop.feature.airdrop.navigation.airdropScreen
-import com.altsdrop.feature.ico.navigation.icoScreen
 import com.altsdrop.feature.login.navigation.LoginScreen
 import com.altsdrop.feature.login.navigation.loginScreen
 import com.altsdrop.feature.login.navigation.navigateToLoginScreen
@@ -91,6 +90,6 @@ fun HomeScreenNavHost(
             },
             navigateBack = navHostController::popBackStack
         )
-        icoScreen()
+        //icoScreen()
     }
 }

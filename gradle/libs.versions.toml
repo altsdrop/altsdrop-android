@@ -1,11 +1,10 @@
 [versions]
-agp = "8.9.2"
+agp = "8.9.3"
 appUpdateVersion = "2.1.0"
 appUpdateKtxVersion = "2.1.0"
 coilCompose = "2.7.0"
 credentials = "1.5.0"
-datastorePreferencesVersion = "1.1.6"
-googleGson = "2.11.0"
+datastorePreferencesVersion = "1.1.7"
 googleId = "1.1.1"
 hiltNavigationCompose = "1.2.0"
 kotlin = "2.0.20"
@@ -13,17 +12,18 @@ coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-kotlinxSerializationJson = "1.7.1"
+kotlinxSerializationJson = "1.7.3"
 lifecycleRuntimeKtx = "2.9.0"
 activityCompose = "1.10.1"
-composeBom = "2025.05.00"
+composeBom = "2025.05.01"
 googleServicesPlugin = "4.4.2"
-firebaseBom = "33.13.0"
+firebaseBom = "33.14.0"
 hilt = "2.52"
 ksp = "2.0.20-1.0.25"
+moshi = "1.15.0"
 navigationCompose = "2.9.0"
 playServicesAuth = "21.3.0"
-uiTextGoogleFonts = "1.8.1"
+uiTextGoogleFonts = "1.8.2"
 crashlytics = "3.0.3"
 browser = "1.8.0"
 jsoup = "1.14.3"
@@ -65,6 +65,8 @@ google-firebase-analytics = { module = "com.google.firebase:firebase-analytics" 
 firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
 
 #Play Services
+moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
+moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 play-app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtxVersion" }
 play-app-update = { module = "com.google.android.play:app-update", version.ref = "appUpdateVersion" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
@@ -82,9 +84,6 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 
 #Coil
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
-
-#Gson
-google-gson = { module = "com.google.code.gson:gson", version.ref = "googleGson" }
 
 #Browser
 androidx-browser = { module = "androidx.browser:browser", version.ref = "browser" }

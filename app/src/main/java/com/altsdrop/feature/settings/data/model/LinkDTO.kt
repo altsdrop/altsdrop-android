@@ -1,5 +1,6 @@
 package com.altsdrop.feature.settings.data.model
 
+@JsonClass(generateAdapter = true)
 data class LinkDTO(
     val title: String,
     val url: String

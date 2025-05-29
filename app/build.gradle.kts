@@ -14,11 +14,11 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.altsdrop"
+        applicationId = "com.altsdrop.app"
         minSdk = 24
         targetSdk = 35
-        versionCode = 2
-        versionName = "1.0"
+        versionCode = 4
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -28,7 +28,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -52,7 +52,7 @@ android {
     }
 
     flavorDimensions += "environment"
-    
+
     productFlavors {
         create("dev") {
             dimension = "environment"
@@ -109,8 +109,6 @@ dependencies {
     //Coil
     implementation(libs.coil.compose)
 
-    implementation(libs.google.gson)
-
     //In-app Updates
     implementation(libs.play.app.update)
 
@@ -119,6 +117,10 @@ dependencies {
 
     //Preference Datastore
     implementation(libs.androidx.datastore.preferences)
+
+    //Moshi
+    implementation(libs.moshi.kotlin)
+    implementation(libs.moshi)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

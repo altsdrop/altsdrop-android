@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.gson.Gson
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -60,8 +60,8 @@ object SettingsModule {
     @Provides
     fun provideRemoteSettingsRepository(
         remoteConfig: FirebaseRemoteConfig,
-        gson: Gson
+        moshi: Moshi
     ): RemoteSettingsRepository {
-        return RemoteSettingsRepositoryImpl(remoteConfig, gson)
+        return RemoteSettingsRepositoryImpl(remoteConfig, moshi)
     }
 }
