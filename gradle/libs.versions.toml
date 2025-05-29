@@ -21,6 +21,7 @@ firebaseBom = "33.14.0"
 hilt = "2.52"
 ksp = "2.0.20-1.0.25"
 moshi = "1.15.0"
+moshiKotlinCodegen = "1.15.2"
 navigationCompose = "2.9.0"
 playServicesAuth = "21.3.0"
 uiTextGoogleFonts = "1.8.2"
@@ -65,8 +66,6 @@ google-firebase-analytics = { module = "com.google.firebase:firebase-analytics" 
 firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
 
 #Play Services
-moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
-moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 play-app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtxVersion" }
 play-app-update = { module = "com.google.android.play:app-update", version.ref = "appUpdateVersion" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
@@ -84,6 +83,11 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 
 #Coil
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+
+#Moshi
+moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
+moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
+moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
 
 #Browser
 androidx-browser = { module = "androidx.browser:browser", version.ref = "browser" }

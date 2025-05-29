@@ -121,6 +121,7 @@ dependencies {
     //Moshi
     implementation(libs.moshi.kotlin)
     implementation(libs.moshi)
+    ksp(libs.moshi.kotlin.codegen)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
