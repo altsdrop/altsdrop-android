@@ -18,6 +18,7 @@ class AirdropRepositoryImpl(
             // Retrieve all documents in the collection
             val documents = airdropCollectionRef
                 .whereEqualTo("isFeatured", true)
+                .whereEqualTo("isArchived", false)
                 .orderBy("dateAdded", Query.Direction.DESCENDING)
                 .limit(5)
                 .get()
@@ -38,6 +39,7 @@ class AirdropRepositoryImpl(
             // Retrieve all new documents in the collection
             val documents = airdropCollectionRef
                 .whereEqualTo("isFeatured", false)
+                .whereEqualTo("isArchived", false)
                 .orderBy("dateAdded", Query.Direction.DESCENDING)
                 .get()
                 .await()
@@ -56,6 +58,7 @@ class AirdropRepositoryImpl(
         return@withContext try {
             // Retrieve all new documents in the collection
             val documents = airdropCollectionRef
+                .whereEqualTo("isArchived", false)
                 .get()
                 .await()
 
@@ -74,6 +77,7 @@ class AirdropRepositoryImpl(
             // Retrieve all new documents in the collection
             val documents = airdropCollectionRef
                 .whereEqualTo("isHighlyRated", true)
+                .whereEqualTo("isArchived", false)
                 .orderBy("dateAdded", Query.Direction.DESCENDING)
                 .get()
                 .await()
@@ -90,15 +94,23 @@ class AirdropRepositoryImpl(
 
     override suspend fun getAirdropDetails(slug: String) = withContext(Dispatchers.IO) {
         return@withContext try {
-            // Retrieve all documents in the collection
-            val document = airdropCollectionRef
-                .whereEqualTo("slug", slug)
+            // Directly fetch the document by ID
+            val snapshot = airdropCollectionRef
+                .document(slug)
                 .get()
                 .await()
-            val airdropDTOs = document.toObjects(AirdropDTO::class.java)
-            Result.success(airdropDTOs.first().toDomain())
+
+            if (snapshot.exists()) {
+                val dto = snapshot.toObject(AirdropDTO::class.java)
+                if (dto != null) {
+                    Result.success(dto.toDomain())
+                } else {
+                    Result.failure(NullPointerException("AirdropDTO is null"))
+                }
+            } else {
+                Result.failure(NoSuchElementException("No document found with slug: $slug"))
+            }
         } catch (e: Exception) {
-            // Handle exception, e.g., logging or returning an empty list
             e.printStackTrace()
             Result.failure(e)
         }

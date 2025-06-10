@@ -5,6 +5,7 @@ import com.altsdrop.feature.news.data.model.toDomain
 import com.altsdrop.feature.news.domain.model.Article
 import com.altsdrop.feature.news.domain.repository.NewsRepository
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -15,7 +16,10 @@ class NewsRepositoryImpl(
     override suspend fun getArticles(): List<Article> = withContext(Dispatchers.IO) {
         return@withContext try {
             // Retrieve all documents in the collection
-            val documents = newsCollectionRef.get().await()
+            val documents = newsCollectionRef
+                .whereEqualTo("isArchived", false)
+                .orderBy("publishedDatetime", Query.Direction.DESCENDING)
+                .get().await()
             val articles = documents.toObjects(ArticleDTO::class.java)
             articles.map { it.toDomain() }
         } catch (e: Exception) {
@@ -27,19 +31,24 @@ class NewsRepositoryImpl(
 
     override suspend fun getArticleBySlug(slug: String) = withContext(Dispatchers.IO) {
         return@withContext try {
-            // Retrieve all documents in the collection
-            val document = newsCollectionRef
-                .whereEqualTo("slug", slug)
+            val snapshot = newsCollectionRef
+                .document(slug)
                 .get()
                 .await()
-            val airdropDTOs = document.toObjects(ArticleDTO::class.java)
-            Result.success(airdropDTOs.first().toDomain())
+
+            if (snapshot.exists()) {
+                val dto = snapshot.toObject(ArticleDTO::class.java)
+                if (dto != null) {
+                    Result.success(dto.toDomain())
+                } else {
+                    Result.failure(NullPointerException("ArticleDTO is null"))
+                }
+            } else {
+                Result.failure(NoSuchElementException("No document found with slug: $slug"))
+            }
         } catch (e: Exception) {
-            // Handle exception, e.g., logging or returning an empty list
             e.printStackTrace()
             Result.failure(e)
         }
     }
-
-
 }
