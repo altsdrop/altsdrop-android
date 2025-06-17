@@ -10,6 +10,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
+private const val PUBLISHED_DATE_TIME_KEY = "publishedDateTime"
+private const val IS_ARCHIVED_KEY = "isArchived"
+
 class NewsRepositoryImpl(
     private val newsCollectionRef: CollectionReference
 ) : NewsRepository {
@@ -17,8 +20,8 @@ class NewsRepositoryImpl(
         return@withContext try {
             // Retrieve all documents in the collection
             val documents = newsCollectionRef
-                .whereEqualTo("isArchived", false)
-                .orderBy("publishedDatetime", Query.Direction.DESCENDING)
+                .whereEqualTo(IS_ARCHIVED_KEY, false)
+                .orderBy(PUBLISHED_DATE_TIME_KEY, Query.Direction.DESCENDING)
                 .get().await()
             val articles = documents.toObjects(ArticleDTO::class.java)
             articles.map { it.toDomain() }
