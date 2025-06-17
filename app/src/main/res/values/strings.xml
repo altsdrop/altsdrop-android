@@ -1,3 +1,69 @@
 <resources>
     <string name="app_name">Altsdrop</string>
+    <string name="bottom_navigation_airdrop_tab">Airdrop</string>
+    <string name="bottom_navigation_news_tab">News</string>
+    <string name="bottom_navigation_settings_tab">Settings</string>
+
+    <string name="title_feature_airdrop">Featured Airdrop</string>
+    <string name="new_tab">New</string>
+    <string name="highly_rated_tab">Highly Rated</string>
+    <string name="explore_tab">Explore</string>
+
+    <string name="title_feature_news">News</string>
+    <string name="title_feature_settings">Settings</string>
+    <string name="text_official_links">Official Links</string>
+    <string name="text_social_links">Social Links</string>
+    <string name="text_how_to_participate">How to participate</string>
+    <string name="text_airdrop_overview">Airdrop Details</string>
+
+    <!-- Settings -->
+    <string name="settings_category_general">General</string>
+    <string name="settings_push_notifications">Push Notifications</string>
+
+    <string name="settings_category_community">Community</string>
+    <string name="settings_telegram">Telegram</string>
+    <string name="settings_twitter">Twitter (X)</string>
+    <string name="settings_discord">Discord</string>
+
+    <string name="settings_category_about">About</string>
+    <string name="settings_privacy_policy">Privacy Policy</string>
+    <string name="settings_terms_of_service">Terms of Service</string>
+    <string name="settings_about_us">About Us</string>
+
+    <string name="settings_category_support">Support</string>
+    <string name="settings_contact_us">Contact Us</string>
+    <string name="settings_feedback">Feedback</string>
+    <string name="settings_report_a_bug">Report a bug</string>
+
+    <string name="settings_category_account">Account</string>
+    <string name="settings_logout">Logout</string>
+
+
+    <!-- Text -->
+    <string name="text_sign_in_with_google">Sign in with Google</string>
+
+    <!--Dialog-->
+    <string name="dialog_cancel">Cancel</string>
+
+    <!--Logout Dialog-->
+    <string name="logout_dialog_title">Logout Confirmation</string>
+    <string name="logout_dialog_message">Are you sure you want to logout?</string>
+    <string name="logout_dialog_confirm">Logout</string>
+
+    <!--Feedback Dialog-->
+    <string name="feedback_dialog_title">We Value Your Feedback</string>
+    <string name="feedback_dialog_message">Please provide your thoughts below:</string>
+    <string name="feedback_dialog_confirm">Submit</string>
+    <string name="feedback_input_field_label">Feedback</string>
+    <string name="feedback_input_field_placeholder">Vent your praises (or frustrations) here!</string>
+
+    <!--Report Issue Dialog-->
+    <string name="report_bug_dialog_title">Report Bug</string>
+    <string name="report_bug_dialog_message">Please provide a brief description of the bug below:</string>
+    <string name="report_bug_dialog_confirm">Submit</string>
+    <string name="report_bug_dialog_input_field_label">Description</string>
+    <string name="report_bug_dialog_input_field_placeholder">Describe the bug in detail, including any relevant information.</string>
+
+    <!-- Error -->
+    <string name="error_airdrop_not_found">Airdrop not found!</string>">
 </resources>

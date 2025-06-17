@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<defaults>
+    <entry>
+        <key>settings</key>
+        <value>{
+            "community": [
+            {
+            "title": "Twitter (X)",
+            "url": "https://www.x.com/altsdropapp"
+            },
+            {
+            "title": "Discord",
+            "url": "https://discord.gg/DQrrpG2W"
+            },
+            {
+            "title": "Telegram",
+            "url": "https://t.me/altsdrop"
+            }
+            ],
+            "about": [
+            {
+            "title": "About Us",
+            "url": "https://altsdrop.com/about-us"
+            },
+            {
+            "title": "Privacy Policy",
+            "url": "https://altsdrop.com/privacy-policy"
+            },
+            {
+            "title": "Terms of Service",
+            "url": "https://altsdrop.com/terms-of-service"
+            }
+            ],
+            "support": [
+            {
+            "title": "Contact Us",
+            "url": "mailto:support@altsdrop.com"
+            }
+            ]
+            }
+        </value>
+    </entry>
+</defaults>
