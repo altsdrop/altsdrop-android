@@ -59,6 +59,7 @@ class AirdropRepositoryImpl(
             // Retrieve all new documents in the collection
             val documents = airdropCollectionRef
                 .whereEqualTo("isArchived", false)
+                .orderBy("dateAdded", Query.Direction.DESCENDING)
                 .get()
                 .await()
 

@@ -45,7 +45,9 @@ import coil.compose.AsyncImage
 import com.altsdrop.app.ui.theme.AltsdropTheme
 import com.altsdrop.core.ui.component.ErrorInfo
 import com.altsdrop.core.ui.component.TextChip
+import com.altsdrop.core.ui.component.getHtmlText
 import com.altsdrop.core.util.openCustomTab
+import com.altsdrop.core.util.toRgba
 import com.altsdrop.feature.news.domain.model.Article
 import com.altsdrop.feature.news.domain.model.previewArticle
 
@@ -135,6 +137,9 @@ fun ArticleDetailsScreen(
 fun ArticleDetails(article: Article) {
     val scrollState = rememberScrollState()
 
+    val backgroundColor = MaterialTheme.colorScheme.background.toRgba()
+    val bodyColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f).toRgba()
+
     Column(
         modifier = Modifier
             .verticalScroll(scrollState)
@@ -191,26 +196,14 @@ fun ArticleDetails(article: Article) {
                             return true
                         }
                     }
-
-                    loadData(
-                        """
-                <html>
-                    <head>
-                        <style>
-                            body {
-                                margin: 0;
-                                padding: 0;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        ${article.content}
-                    </body>
-                </html>
-            """, "text/html", "UTF-8"
+                    loadDataWithBaseURL(
+                        null,
+                        getHtmlText(article.content, backgroundColor, bodyColor),
+                        "text/html",
+                        "UTF-8",
+                        null
                     )
                     setPadding(0, 0, 0, 0)
-                    //  settings.javaScriptEnabled = true // Enable JavaScript if needed
                 }
             }
         )

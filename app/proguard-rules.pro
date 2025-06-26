@@ -23,3 +23,5 @@
 -keep class androidx.credentials.playservices.** {
   *;
 }
+# Keep all data models in your app (less strict, but safe)
+-keep class **.model.** { *; }

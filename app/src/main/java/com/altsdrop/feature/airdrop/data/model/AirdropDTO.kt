@@ -19,7 +19,7 @@ data class AirdropDTO(
     val slug: String = "",
     val socialLinks: List<HyperLinkDTO> = emptyList(),
     val startDate: Timestamp = Timestamp.now(),
-    val steps: List<String> = emptyList(),
+    val steps: List<StepDTO> = emptyList(),
     val tags: List<String> = emptyList(),
     val thumbnail: String = ""
 )
@@ -41,7 +41,7 @@ fun AirdropDTO.toDomain(): Airdrop {
         slug = slug,
         socialLinks = socialLinks.map { it.toDomain() },
         startDate = startDate.toString(),
-        steps = steps,
+        steps = steps.map { it.toDomain() },
         tags = tags,
         thumbnail = thumbnail
     )

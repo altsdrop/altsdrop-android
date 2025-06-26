@@ -18,7 +18,7 @@ data class Airdrop(
     val slug: String = "",
     val socialLinks: List<HyperLink> = listOf(),
     val startDate: String = "",
-    val steps: List<String> = listOf(),
+    val steps: List<Step> = listOf(),
     val tags: List<String> = listOf(),
     val thumbnail: String = ""
 )
@@ -62,12 +62,18 @@ val previewAirdrop = Airdrop(
     ),
     "",
     listOf(
-        "Join our <a href=\"https://t.me/officialchannel\">Telegram channel</a> to stay updated. Follow us on <a href=\"https://twitter.com/officialprofile\">Twitter</a>",
-        "Follow us on <a href=\"https://twitter.com/officialprofile\">Twitter</a> and like our pinned post.",
-        "Retweet the announcement using <b>#ProjectAirdrop</b> hashtag.",
-        "Complete KYC verification on our <a href=\"https://project.com/kyc\">official portal</a>.",
-        "Submit your <i>Ethereum wallet address</i> to receive tokens.",
-        "Refer friends using your unique link and <b>earn bonus tokens</b>!"
+        Step(
+            title = "Stake ETH",
+            content = "Join our <a href=\"https://t.me/officialchannel\">Telegram channel</a> to stay updated. Follow us on <a href=\"https://twitter.com/officialprofile\">Twitter</a>"
+        ),
+        Step(
+            title = "Claim Blast",
+            content = "Follow us on <a href=\"https://twitter.com/officialprofile\">Twitter</a> and like our pinned post.\""
+        ),
+        Step(
+            title = "Claim Rewards",
+            content = "Claim Rewards on Blast."
+        )
     ),
     listOf("ETH", "Arbitrum", "Blast", "Polygon", "Matic"),
     "https://blog.bitfinex.com/wp-content/uploads/2024/03/BFX_ARB.png"

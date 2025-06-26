@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -8,6 +11,12 @@ plugins {
     alias(libs.plugins.com.google.firebase.crashlytics)
     kotlin("plugin.serialization") version "2.0.20"
 }
+
+val keystorePropertiesFile = rootProject.file("keystore.properties")
+// Initialize a new Properties() object called keystoreProperties.
+val keystoreProperties = Properties()
+// Load your keystore.properties file into the keystoreProperties object.
+keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
 android {
     namespace = "com.altsdrop"
@@ -26,6 +35,15 @@ android {
         }
     }
 
+    signingConfigs {
+        create("prodConfig") {
+            keyAlias = keystoreProperties["PROD_KEY_ALIAS"] as String
+            keyPassword = keystoreProperties["PROD_KEY_PASSWORD"] as String
+            storeFile = file(keystoreProperties["PROD_STORE_FILE"] as String)
+            storePassword = keystoreProperties["PROD_STORE_PASSWORD"] as String
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -33,21 +51,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    buildFeatures {
-        compose = true
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            signingConfig = signingConfigs.getByName("prodConfig")
         }
     }
 
@@ -64,6 +68,22 @@ android {
             dimension = "environment"
         }
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+    buildFeatures {
+        compose = true
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
 }
 
 dependencies {
@@ -73,9 +93,9 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-
     //Firebase
     implementation(platform(libs.com.google.firebase))
     implementation(libs.firebase.analytics)
@@ -132,6 +152,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
