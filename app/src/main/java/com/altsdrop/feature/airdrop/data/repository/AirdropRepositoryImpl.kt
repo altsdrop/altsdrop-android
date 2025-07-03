@@ -19,7 +19,7 @@ class AirdropRepositoryImpl(
             val documents = airdropCollectionRef
                 .whereEqualTo("isFeatured", true)
                 .whereEqualTo("isArchived", false)
-                .orderBy("dateAdded", Query.Direction.DESCENDING)
+                .orderBy("createdAt", Query.Direction.DESCENDING)
                 .limit(5)
                 .get()
                 .await()
@@ -40,7 +40,7 @@ class AirdropRepositoryImpl(
             val documents = airdropCollectionRef
                 .whereEqualTo("isFeatured", false)
                 .whereEqualTo("isArchived", false)
-                .orderBy("dateAdded", Query.Direction.DESCENDING)
+                .orderBy("createdAt", Query.Direction.DESCENDING)
                 .get()
                 .await()
 
@@ -59,7 +59,7 @@ class AirdropRepositoryImpl(
             // Retrieve all new documents in the collection
             val documents = airdropCollectionRef
                 .whereEqualTo("isArchived", false)
-                .orderBy("dateAdded", Query.Direction.DESCENDING)
+                .orderBy("createdAt", Query.Direction.DESCENDING)
                 .get()
                 .await()
 
@@ -79,7 +79,7 @@ class AirdropRepositoryImpl(
             val documents = airdropCollectionRef
                 .whereEqualTo("isHighlyRated", true)
                 .whereEqualTo("isArchived", false)
-                .orderBy("dateAdded", Query.Direction.DESCENDING)
+                .orderBy("createdAt", Query.Direction.DESCENDING)
                 .get()
                 .await()
 
