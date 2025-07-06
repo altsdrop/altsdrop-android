@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -41,9 +40,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
 import com.altsdrop.app.ui.theme.AltsdropTheme
 import com.altsdrop.core.ui.component.ErrorInfo
+import com.altsdrop.core.ui.component.FirebaseAsyncImage
 import com.altsdrop.core.ui.component.TextChip
 import com.altsdrop.core.ui.component.getHtmlText
 import com.altsdrop.core.util.openCustomTab
@@ -155,10 +154,9 @@ fun ArticleDetails(article: Article) {
                 .fillMaxWidth(),
             elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
         ) {
-            AsyncImage(
-                modifier = Modifier
-                    .aspectRatio(2f / 1f),
-                model = article.headerImage,
+            FirebaseAsyncImage(
+                modifier = Modifier,
+                imageUrl = article.headerImage,
                 contentScale = ContentScale.Crop,
                 contentDescription = "featureBanner"
             )

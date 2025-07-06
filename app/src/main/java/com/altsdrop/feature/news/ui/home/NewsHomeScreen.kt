@@ -34,8 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
 import com.altsdrop.R
+import com.altsdrop.core.ui.component.FirebaseAsyncImage
 import com.altsdrop.core.ui.component.TextChip
 import com.altsdrop.feature.news.domain.model.Article
 import com.altsdrop.feature.news.domain.model.previewArticle
@@ -111,12 +111,12 @@ fun ArticleCard(
             },
         horizontalArrangement = Arrangement.spacedBy(16.dp) // Start alignment, but text will expand
     ) {
-        AsyncImage(
+        FirebaseAsyncImage(
             modifier = Modifier
                 .size(80.dp)
                 .align(Alignment.CenterVertically)
                 .clip(RoundedCornerShape(8.dp)),
-            model = article.headerImage,
+            imageUrl = article.headerImage,
             alignment = Alignment.Center,
             contentScale = ContentScale.Crop,
             contentDescription = "article image"

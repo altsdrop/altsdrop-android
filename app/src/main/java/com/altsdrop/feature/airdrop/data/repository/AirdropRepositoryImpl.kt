@@ -20,7 +20,7 @@ class AirdropRepositoryImpl(
                 .whereEqualTo("isFeatured", true)
                 .whereEqualTo("isArchived", false)
                 .orderBy("createdAt", Query.Direction.DESCENDING)
-                .limit(5)
+                .limit(10)
                 .get()
                 .await()
 

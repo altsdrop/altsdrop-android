@@ -1,5 +1,6 @@
 package com.altsdrop.feature.airdrop.ui.home
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -7,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,12 +28,13 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.altsdrop.app.ui.theme.AltsdropTheme
+import com.altsdrop.core.ui.component.FirebaseAsyncImage
 import com.altsdrop.core.ui.component.TextChip
 import com.altsdrop.feature.airdrop.domain.model.Airdrop
 import com.altsdrop.feature.airdrop.domain.model.previewAirdrop
 
+@SuppressLint("ConfigurationScreenWidthHeight")
 @Composable
 fun FeaturedAirdropCard(
     airdrop: Airdrop,
@@ -52,7 +53,7 @@ fun FeaturedAirdropCard(
 
     val cardHeight by remember(cardWidth) {
         derivedStateOf {
-            cardWidth * 9 / 16
+            cardWidth * 1 / 2
         }
     }
 
@@ -67,10 +68,10 @@ fun FeaturedAirdropCard(
             defaultElevation = 8.dp
         )
     ) {
-        AsyncImage(
+        FirebaseAsyncImage(
             modifier = Modifier.fillMaxSize(),
-            model = airdrop.thumbnail,
-            contentScale = ContentScale.FillBounds,
+            imageUrl = airdrop.thumbnail,
+            contentScale = ContentScale.Crop,
             contentDescription = "featureBanner"
         )
     }
@@ -95,11 +96,10 @@ fun AirdropCard(
         )
     ) {
         Column {
-            AsyncImage(
+            FirebaseAsyncImage(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(2f / 1f),
-                model = airdrop.thumbnail,
+                    .fillMaxWidth(),
+                imageUrl = airdrop.thumbnail,
                 contentScale = ContentScale.Crop,
                 contentDescription = "featureBanner"
             )
@@ -148,5 +148,13 @@ fun AirdropCard(
 fun AirdropCardPreview() {
     AltsdropTheme {
         AirdropCard(airdrop = previewAirdrop)
+    }
+}
+
+@Preview
+@Composable
+fun FeaturedAirdropCardPreview() {
+    AltsdropTheme {
+        FeaturedAirdropCard(airdrop = previewAirdrop)
     }
 }

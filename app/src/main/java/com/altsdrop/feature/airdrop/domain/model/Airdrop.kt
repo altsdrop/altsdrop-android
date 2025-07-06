@@ -72,5 +72,5 @@ val previewAirdrop = Airdrop(
         )
     ),
     listOf("ETH", "Arbitrum", "Blast", "Polygon", "Matic"),
-    "https://blog.bitfinex.com/wp-content/uploads/2024/03/BFX_ARB.png"
+    "https://firebasestorage.googleapis.com/v0/b/altsdrop-dev.appspot.com/o/images%2Fairdrops%2F1751629182753.jpg?alt=media&token=9c7967c3-1b85-4773-932b-0c7401dbcc4b"
 )
