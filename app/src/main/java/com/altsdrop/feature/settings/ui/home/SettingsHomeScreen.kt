@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 import com.altsdrop.R
 import com.altsdrop.core.ui.component.FirebaseAsyncImage
 import com.altsdrop.feature.settings.domain.model.Setting
@@ -363,13 +364,13 @@ fun ToggleSetting(setting: Setting.Toggle, onEvent: (SettingsHomeScreenUiEvent) 
 @Composable
 fun UserDetails(user: User) {
     Row {
-        FirebaseAsyncImage(
+        AsyncImage(
             modifier = Modifier
                 .size(80.dp)
                 .clip(CircleShape),
-            imageUrl = user.photoUrl,
+            model = user.photoUrl,
             contentScale = ContentScale.FillBounds,
-            contentDescription = "article image"
+            contentDescription = "user image"
         )
 
         Spacer(modifier = Modifier.width(16.dp))
