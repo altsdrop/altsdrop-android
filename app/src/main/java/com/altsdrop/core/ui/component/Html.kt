@@ -16,6 +16,10 @@ fun getHtmlText(
                     color: $bodyColor !important;
                     font-family: 'Poppins' !important;
                 }
+                p {
+                    margin: 0;
+                    padding: 0;
+                }
                 a, a:link, a:visited, a:hover, a:active {
                     color: #3179ed !important;
                     text-decoration: none !important;

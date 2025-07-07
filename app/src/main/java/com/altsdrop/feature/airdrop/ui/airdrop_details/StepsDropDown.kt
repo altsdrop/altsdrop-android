@@ -57,7 +57,7 @@ fun StepDropdownItem(step: Step) {
     val context = LocalContext.current
 
     val backgroundColor = MaterialTheme.colorScheme.background.toRgba()
-    val bodyColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f).toRgba()
+    val bodyColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f).toRgba()
 
     Card(
         modifier = Modifier
@@ -117,7 +117,7 @@ fun StepDropdownItem(step: Step) {
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp)
+                        .padding(top = 8.dp)
                 )
             }
         }
