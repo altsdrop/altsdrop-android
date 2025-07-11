@@ -75,7 +75,6 @@ fun StepDropdownItem(step: Step) {
             Row {
                 Text(
                     text = step.title,
-                    maxLines = 2,
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.weight(1f)
