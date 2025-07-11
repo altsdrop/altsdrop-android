@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -41,11 +40,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
 import com.altsdrop.app.ui.theme.AltsdropTheme
 import com.altsdrop.core.ui.component.ErrorInfo
+import com.altsdrop.core.ui.component.FirebaseAsyncImage
 import com.altsdrop.core.ui.component.TextChip
+import com.altsdrop.core.ui.component.getHtmlText
 import com.altsdrop.core.util.openCustomTab
+import com.altsdrop.core.util.toRgba
 import com.altsdrop.feature.news.domain.model.Article
 import com.altsdrop.feature.news.domain.model.previewArticle
 
@@ -135,6 +136,9 @@ fun ArticleDetailsScreen(
 fun ArticleDetails(article: Article) {
     val scrollState = rememberScrollState()
 
+    val backgroundColor = MaterialTheme.colorScheme.background.toRgba()
+    val bodyColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f).toRgba()
+
     Column(
         modifier = Modifier
             .verticalScroll(scrollState)
@@ -150,10 +154,9 @@ fun ArticleDetails(article: Article) {
                 .fillMaxWidth(),
             elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
         ) {
-            AsyncImage(
-                modifier = Modifier
-                    .aspectRatio(2f / 1f),
-                model = article.headerImage,
+            FirebaseAsyncImage(
+                modifier = Modifier,
+                imageUrl = article.headerImage,
                 contentScale = ContentScale.Crop,
                 contentDescription = "featureBanner"
             )
@@ -191,26 +194,14 @@ fun ArticleDetails(article: Article) {
                             return true
                         }
                     }
-
-                    loadData(
-                        """
-                <html>
-                    <head>
-                        <style>
-                            body {
-                                margin: 0;
-                                padding: 0;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        ${article.content}
-                    </body>
-                </html>
-            """, "text/html", "UTF-8"
+                    loadDataWithBaseURL(
+                        null,
+                        getHtmlText(article.content, backgroundColor, bodyColor),
+                        "text/html",
+                        "UTF-8",
+                        null
                     )
                     setPadding(0, 0, 0, 0)
-                    //  settings.javaScriptEnabled = true // Enable JavaScript if needed
                 }
             }
         )

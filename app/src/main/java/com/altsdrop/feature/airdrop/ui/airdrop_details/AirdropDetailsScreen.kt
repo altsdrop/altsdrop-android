@@ -1,24 +1,13 @@
 package com.altsdrop.feature.airdrop.ui.airdrop_details
 
-import android.text.SpannableString
-import android.text.TextPaint
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
-import android.text.style.URLSpan
-import android.view.View
-import android.widget.TextView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -38,7 +27,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -50,15 +38,13 @@ import androidx.compose.ui.text.style.TextOverflow.Companion.Ellipsis
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.text.HtmlCompat
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
 import com.altsdrop.R
 import com.altsdrop.app.ui.theme.AltsdropTheme
-import com.altsdrop.app.ui.theme.hyperLink
 import com.altsdrop.core.ui.component.ErrorInfo
+import com.altsdrop.core.ui.component.FirebaseAsyncImage
 import com.altsdrop.core.ui.component.TextChip
 import com.altsdrop.core.util.openCustomTab
 import com.altsdrop.feature.airdrop.domain.model.Airdrop
@@ -165,10 +151,8 @@ fun AirdropDetails(airdrop: Airdrop) {
                 .fillMaxWidth(),
             elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp)
         ) {
-            AsyncImage(
-                modifier = Modifier
-                    .aspectRatio(2f / 1f),
-                model = airdrop.thumbnail,
+            FirebaseAsyncImage(
+                imageUrl = airdrop.thumbnail,
                 contentScale = ContentScale.Crop,
                 contentDescription = "featureBanner"
             )
@@ -191,16 +175,27 @@ fun AirdropDetails(airdrop: Airdrop) {
         }
 
         Text(
-            text = airdrop.description,
+            text = airdrop.shortDescription,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f),
         )
 
-        Spacer(modifier = Modifier.height(2.dp))
+        Text(
+            text = stringResource(R.string.text_how_to_participate),
+            style = MaterialTheme.typography.titleMedium.copy(
+                fontSize = 18.sp
+            ),
+            color = MaterialTheme.colorScheme.onBackground,
+            fontWeight = FontWeight.Bold
+        )
+
+        StepsDropdown(steps = airdrop.steps)
 
         Text(
             text = stringResource(R.string.text_official_links),
-            style = MaterialTheme.typography.titleSmall,
+            style = MaterialTheme.typography.titleMedium.copy(
+                fontSize = 18.sp
+            ),
             color = MaterialTheme.colorScheme.onBackground,
             fontWeight = FontWeight.Bold
         )
@@ -227,7 +222,9 @@ fun AirdropDetails(airdrop: Airdrop) {
 
         Text(
             text = stringResource(R.string.text_social_links),
-            style = MaterialTheme.typography.titleSmall,
+            style = MaterialTheme.typography.titleMedium.copy(
+                fontSize = 18.sp
+            ),
             color = MaterialTheme.colorScheme.onBackground,
             fontWeight = FontWeight.Bold
         )
@@ -252,69 +249,19 @@ fun AirdropDetails(airdrop: Airdrop) {
             }
         }
 
-        Spacer(modifier = Modifier.height(2.dp))
-
         Text(
-            text = stringResource(R.string.text_how_to_participate),
-            style = MaterialTheme.typography.titleMedium,
+            text = stringResource(R.string.text_airdrop_description_title),
+            style = MaterialTheme.typography.titleMedium.copy(
+                fontSize = 18.sp
+            ),
             color = MaterialTheme.colorScheme.onBackground,
             fontWeight = FontWeight.Bold
         )
 
-        airdrop.steps.forEachIndexed { index, step ->
-            HtmlStepItem(index = index, html = step)
-        }
-    }
-}
-
-@Composable
-fun HtmlStepItem(index: Int, html: String) {
-    val context = LocalContext.current
-
-    Row(modifier = Modifier) {
         Text(
-            text = "${index + 1}. ",
-            style = MaterialTheme.typography.bodyMedium.copy(
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.9f)
-            )
-        )
-
-        val textColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.9f).toArgb()
-
-        AndroidView(
-            factory = {
-                TextView(it).apply {
-                    movementMethod = LinkMovementMethod.getInstance()
-                    setTextColor(textColor)
-                }
-            },
-            update = { textView ->
-                val spanned = HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY)
-                val spannable = SpannableString(spanned)
-
-                val urlSpans = spannable.getSpans(0, spannable.length, URLSpan::class.java)
-                urlSpans.forEach { span ->
-                    val start = spannable.getSpanStart(span)
-                    val end = spannable.getSpanEnd(span)
-                    val flags = spannable.getSpanFlags(span)
-                    spannable.removeSpan(span)
-                    spannable.setSpan(object : ClickableSpan() {
-                        override fun onClick(widget: View) {
-                            context.openCustomTab(span.url)
-                        }
-
-                        override fun updateDrawState(ds: TextPaint) {
-                            super.updateDrawState(ds)
-                            ds.isUnderlineText = false
-                            ds.color = hyperLink.toArgb()
-                        }
-                    }, start, end, flags)
-                }
-
-                textView.text = spannable
-            },
-            modifier = Modifier.weight(1f)
+            text = airdrop.description,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f),
         )
     }
 }

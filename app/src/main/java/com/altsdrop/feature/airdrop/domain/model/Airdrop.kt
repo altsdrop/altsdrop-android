@@ -6,11 +6,9 @@ data class Airdrop(
     val airdropId: String = UUID.randomUUID().toString(),
     val title: String = "",
     val categories: String = "",
-    val chain: String = "",
     val description: String = "",
     val isHighlyRated: Boolean = false,
     val isFeatured: Boolean = false,
-    val dateAdded: String = "",
     val endDate: String = "",
     val networks: List<String> = listOf(""),
     val officialLinks: List<HyperLink> = listOf(),
@@ -18,7 +16,7 @@ data class Airdrop(
     val slug: String = "",
     val socialLinks: List<HyperLink> = listOf(),
     val startDate: String = "",
-    val steps: List<String> = listOf(),
+    val steps: List<Step> = listOf(),
     val tags: List<String> = listOf(),
     val thumbnail: String = ""
 )
@@ -26,12 +24,10 @@ data class Airdrop(
 val previewAirdrop = Airdrop(
     "",
     "Blast L2",
-    "",
     "Blast",
     "Blast yield comes from ETH staking and RWA protocols. The yield from these decentralized protocols is passed back to Blast users automatically. The default interest rate on other L2s is 0%. On Blast, it’s 4% for ETH and 5% for stablecoins.",
     false,
     false,
-    "",
     "",
     listOf(""),
     listOf(
@@ -62,13 +58,19 @@ val previewAirdrop = Airdrop(
     ),
     "",
     listOf(
-        "Join our <a href=\"https://t.me/officialchannel\">Telegram channel</a> to stay updated. Follow us on <a href=\"https://twitter.com/officialprofile\">Twitter</a>",
-        "Follow us on <a href=\"https://twitter.com/officialprofile\">Twitter</a> and like our pinned post.",
-        "Retweet the announcement using <b>#ProjectAirdrop</b> hashtag.",
-        "Complete KYC verification on our <a href=\"https://project.com/kyc\">official portal</a>.",
-        "Submit your <i>Ethereum wallet address</i> to receive tokens.",
-        "Refer friends using your unique link and <b>earn bonus tokens</b>!"
+        Step(
+            title = "Stake ETH",
+            content = "Join our <a href=\"https://t.me/officialchannel\">Telegram channel</a> to stay updated. Follow us on <a href=\"https://twitter.com/officialprofile\">Twitter</a>"
+        ),
+        Step(
+            title = "Claim Blast",
+            content = "Follow us on <a href=\"https://twitter.com/officialprofile\">Twitter</a> and like our pinned post.\""
+        ),
+        Step(
+            title = "Claim Rewards",
+            content = "Claim Rewards on Blast."
+        )
     ),
     listOf("ETH", "Arbitrum", "Blast", "Polygon", "Matic"),
-    "https://blog.bitfinex.com/wp-content/uploads/2024/03/BFX_ARB.png"
+    "https://firebasestorage.googleapis.com/v0/b/altsdrop-dev.appspot.com/o/images%2Fairdrops%2F1751629182753.jpg?alt=media&token=9c7967c3-1b85-4773-932b-0c7401dbcc4b"
 )

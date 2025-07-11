@@ -47,6 +47,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.altsdrop.R
+import com.altsdrop.core.ui.component.FirebaseAsyncImage
 import com.altsdrop.feature.settings.domain.model.Setting
 import com.altsdrop.feature.settings.domain.model.User
 import com.altsdrop.feature.settings.ui.component.AltsdropAlertDialog
@@ -369,7 +370,7 @@ fun UserDetails(user: User) {
                 .clip(CircleShape),
             model = user.photoUrl,
             contentScale = ContentScale.FillBounds,
-            contentDescription = "article image"
+            contentDescription = "user image"
         )
 
         Spacer(modifier = Modifier.width(16.dp))

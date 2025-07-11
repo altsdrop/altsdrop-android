@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -35,7 +36,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import coil.request.CachePolicy
+import coil.request.ImageRequest
 import com.altsdrop.R
+import com.altsdrop.core.ui.component.FirebaseAsyncImage
 import com.altsdrop.core.ui.component.TextChip
 import com.altsdrop.feature.news.domain.model.Article
 import com.altsdrop.feature.news.domain.model.previewArticle
@@ -116,7 +120,11 @@ fun ArticleCard(
                 .size(80.dp)
                 .align(Alignment.CenterVertically)
                 .clip(RoundedCornerShape(8.dp)),
-            model = article.headerImage,
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(article.headerImage)
+                .diskCachePolicy(CachePolicy.ENABLED)    // Enable disk cache
+                .memoryCachePolicy(CachePolicy.ENABLED)  // Enable memory cache
+                .build(),
             alignment = Alignment.Center,
             contentScale = ContentScale.Crop,
             contentDescription = "article image"
@@ -145,8 +153,6 @@ fun ArticleCard(
                 modifier = Modifier
                     .wrapContentWidth()
             ) {
-
-
                 Column(
                     modifier = Modifier
                         .wrapContentSize()
