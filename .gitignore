@@ -36,3 +36,4 @@ google-services.json
 /app/prod/release/baselineProfiles/0/app-prod-release.dm
 /app/prod/release/baselineProfiles/1/app-prod-release.dm
 /app/prod/release/output-metadata.json
+*.properties
