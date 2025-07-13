@@ -6,7 +6,6 @@ import androidx.credentials.GetCredentialRequest
 import com.altsdrop.R
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.Module
@@ -20,13 +19,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 object FirebaseAuthModule {
 
     @Provides
-    fun provideFirestoreAuth(): FirebaseAuth {
+    fun provideFirebaseAuth(): FirebaseAuth {
         return Firebase.auth
-    }
-
-    @Provides
-    fun provideFirebaseUser(firestoreAuth: FirebaseAuth): FirebaseUser? {
-        return firestoreAuth.currentUser
     }
 
     @Provides
