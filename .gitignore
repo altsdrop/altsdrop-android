@@ -33,6 +33,7 @@ google-services.json
 # Android Profiling
 *.hprof
 /app/release/app-release.aab
+/app/prod/release
 /app/prod/release/app-prod-release.aab
 /app/prod/release/baselineProfiles/0/app-prod-release.dm
 /app/prod/release/baselineProfiles/1/app-prod-release.dm
