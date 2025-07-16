@@ -2,9 +2,10 @@ package com.altsdrop.app
 
 import android.app.Application
 import com.altsdrop.R
+import com.google.firebase.FirebaseApp
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import com.google.firebase.remoteconfig.remoteConfigSettings
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -16,7 +17,7 @@ class AltsdropApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
+        FirebaseApp.initializeApp(this)
         FirebaseCrashlytics.getInstance().isCrashlyticsCollectionEnabled = true
         setUpRemoteConfig()
     }

@@ -25,3 +25,15 @@
 }
 # Keep all data models in your app (less strict, but safe)
 -keep class **.model.** { *; }
+# Keep Firebase Auth public APIs
+-keep class com.google.firebase.auth.** { *; }
+
+# Keep annotations and signatures
+-keepattributes Signature
+-keepattributes *Annotation*
+
+# Keep for Firebase Core SDK
+-keep class com.google.firebase.** { *; }
+
+# Optional: Keep Google Play Services classes
+-keep class com.google.android.gms.** { *; }
