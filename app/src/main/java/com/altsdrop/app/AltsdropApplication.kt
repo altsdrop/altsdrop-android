@@ -1,8 +1,12 @@
 package com.altsdrop.app
 
 import android.app.Application
+import com.altsdrop.BuildConfig
 import com.altsdrop.R
-import com.google.firebase.FirebaseApp
+import com.google.firebase.Firebase
+import com.google.firebase.appcheck.appCheck
+import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.remoteConfigSettings
@@ -17,7 +21,15 @@ class AltsdropApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        FirebaseApp.initializeApp(this)
+        if (BuildConfig.DEBUG) {
+            Firebase.appCheck.installAppCheckProviderFactory(
+                DebugAppCheckProviderFactory.getInstance()
+            )
+        } else {
+            Firebase.appCheck.installAppCheckProviderFactory(
+                PlayIntegrityAppCheckProviderFactory.getInstance()
+            )
+        }
         FirebaseCrashlytics.getInstance().isCrashlyticsCollectionEnabled = true
         setUpRemoteConfig()
     }

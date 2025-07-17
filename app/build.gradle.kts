@@ -84,6 +84,10 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
@@ -105,6 +109,8 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.config)
     implementation(libs.firebase.messaging)
+    implementation(libs.firebase.appcheck.integrity)
+    implementation(libs.firebase.appcheck.debug)
     implementation(libs.google.firebase.analytics)
 
     implementation(libs.androidx.credentials)
