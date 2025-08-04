@@ -1,8 +1,5 @@
 package com.altsdrop.app.ui.home
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Settings
 import com.altsdrop.R
 
 data class HomeScreenUiState(
@@ -12,6 +9,11 @@ data class HomeScreenUiState(
             unselectedIcon = R.drawable.ic_airdrop_outlined,
             homeScreenTab = HomeScreenTab.Airdrop,
             isSelected = true
+        ),
+        Tab(
+            selectedIcon = R.drawable.ic_dapp_filled,
+            unselectedIcon = R.drawable.ic_dapp_outlined,
+            homeScreenTab = HomeScreenTab.DApps
         ),
 //        Tab(
 //            selectedIcon = Icons.Filled.LocationOn,
@@ -40,6 +42,7 @@ data class Tab(
 
 sealed class HomeScreenTab {
     data object Airdrop : HomeScreenTab()
+    data object DApps : HomeScreenTab()
   //  data object ICO : HomeScreenTab()
     data object News : HomeScreenTab()
     data object Settings : HomeScreenTab()

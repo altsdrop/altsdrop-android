@@ -39,13 +39,15 @@ fun TextChip(
         border = BorderStroke(0.5.dp, borderColor),
     ) {
         Box(
-            modifier = Modifier.clickable { onClick() }
-                .background(color = backgroundColor,)
+            modifier = Modifier
+                .clickable { onClick() }
+                .background(color = backgroundColor)
                 .padding(horizontal = 12.dp, vertical = 4.dp),  // Padding inside the chip
             contentAlignment = androidx.compose.ui.Alignment.Center
         ) {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
                 if (icon != null) {
                     Icon(
                         modifier = Modifier.size(16.dp),

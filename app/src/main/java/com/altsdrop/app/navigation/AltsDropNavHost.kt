@@ -9,6 +9,8 @@ import com.altsdrop.app.ui.home.HomeScreenTab
 import com.altsdrop.feature.airdrop.navigation.AirdropDetailsScreen
 import com.altsdrop.feature.airdrop.navigation.AirdropNavigationRoute
 import com.altsdrop.feature.airdrop.navigation.airdropScreen
+import com.altsdrop.feature.dapp.navigation.DappNavigationGraphRoute
+import com.altsdrop.feature.dapp.navigation.dAppsNavGraph
 import com.altsdrop.feature.login.navigation.LoginScreen
 import com.altsdrop.feature.login.navigation.loginScreen
 import com.altsdrop.feature.login.navigation.navigateToLoginScreen
@@ -60,6 +62,7 @@ fun HomeScreenNavHost(
         //   HomeScreenTab.ICO -> ICOScreen
         HomeScreenTab.News -> NewsNavigationRoute
         HomeScreenTab.Settings -> SettingsScreen
+        HomeScreenTab.DApps -> DappNavigationGraphRoute
     }
 
     NavHost(
@@ -91,5 +94,8 @@ fun HomeScreenNavHost(
             navigateBack = navHostController::popBackStack
         )
         //icoScreen()
+        dAppsNavGraph(
+            navigateBack = navHostController::popBackStack
+        )
     }
 }
