@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -20,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.altsdrop.app.ui.theme.AltsdropTheme
@@ -27,6 +29,9 @@ import com.altsdrop.app.ui.theme.AltsdropTheme
 @Composable
 fun TextChip(
     text: String,
+    modifier: Modifier = Modifier,
+    textStyle: TextStyle = MaterialTheme.typography.labelSmall,
+    contentPadding: PaddingValues = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
     onClick: () -> Unit = {},
     borderColor: Color = MaterialTheme.colorScheme.primary,
     backgroundColor: Color = MaterialTheme.colorScheme.primaryContainer,
@@ -34,7 +39,7 @@ fun TextChip(
     icon: ImageVector? = null,
 ) {
     Surface(
-        modifier = Modifier,
+        modifier = modifier,
         shape = RoundedCornerShape(16.dp),
         border = BorderStroke(0.5.dp, borderColor),
     ) {
@@ -42,7 +47,7 @@ fun TextChip(
             modifier = Modifier
                 .clickable { onClick() }
                 .background(color = backgroundColor)
-                .padding(horizontal = 12.dp, vertical = 4.dp),  // Padding inside the chip
+                .padding(contentPadding),  // Padding inside the chip
             contentAlignment = androidx.compose.ui.Alignment.Center
         ) {
             Row(
@@ -59,7 +64,7 @@ fun TextChip(
 
                 Text(
                     text = text,
-                    style = MaterialTheme.typography.labelSmall,
+                    style = textStyle,
                     color = textColor
                 )
             }

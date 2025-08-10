@@ -11,6 +11,7 @@ import com.altsdrop.feature.airdrop.navigation.AirdropNavigationRoute
 import com.altsdrop.feature.airdrop.navigation.airdropScreen
 import com.altsdrop.feature.dapp.navigation.DappNavigationGraphRoute
 import com.altsdrop.feature.dapp.navigation.dAppsNavGraph
+import com.altsdrop.feature.dapp.navigation.navigateToDappSearchScreen
 import com.altsdrop.feature.login.navigation.LoginScreen
 import com.altsdrop.feature.login.navigation.loginScreen
 import com.altsdrop.feature.login.navigation.navigateToLoginScreen
@@ -78,7 +79,7 @@ fun HomeScreenNavHost(
                     )
                 )
             },
-            navigateBack = navHostController::popBackStack
+            navigateBack = navHostController::navigateUp
         )
         settingsScreen(
             navigateToLogin = navigateToLogin
@@ -91,11 +92,12 @@ fun HomeScreenNavHost(
                     )
                 )
             },
-            navigateBack = navHostController::popBackStack
+            navigateBack = navHostController::navigateUp
         )
         //icoScreen()
         dAppsNavGraph(
-            navigateBack = navHostController::popBackStack
+            navigateToDappSearchScreen = navHostController::navigateToDappSearchScreen,
+            navigateBack = navHostController::navigateUp
         )
     }
 }

@@ -67,4 +67,8 @@
 
     <!-- Error -->
     <string name="error_airdrop_not_found">Airdrop not found!</string>">
+
+    <!-- App Bar Title -->
+    <string name="title_discover_d_apps">Discover dApps</string>
+    <string name="text_dapp_search_placeholder">Find a dApp by name or URL</string>
 </resources>

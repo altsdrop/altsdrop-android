@@ -137,6 +137,7 @@ dependencies {
 
     //Coil
     implementation(libs.coil.compose)
+    implementation(libs.coil.svg)
 
     //In-app Updates
     implementation(libs.play.app.update)

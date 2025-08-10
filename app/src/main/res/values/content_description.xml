@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="content_description_back_icon">Back</string>
+    <string name="content_description_search_icon">Search</string>
+    <string name="content_description_dapp">Dapp</string>
+</resources>
