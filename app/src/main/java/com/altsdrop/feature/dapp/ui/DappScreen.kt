@@ -1,23 +1,18 @@
 package com.altsdrop.feature.dapp.ui
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -25,7 +20,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -51,26 +45,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
-import coil.decode.SvgDecoder
-import coil.request.CachePolicy
-import coil.request.ImageRequest
 import com.altsdrop.R
 import com.altsdrop.app.ui.theme.AltsdropTheme
-import com.altsdrop.core.ui.component.TextChip
+import com.altsdrop.core.util.openCustomTab
+import com.altsdrop.feature.dapp.domain.model.Dapp
+import com.altsdrop.feature.dapp.ui.DappScreenUiAction.OnDappItemClick
 import com.altsdrop.feature.dapp.ui.DappScreenUiAction.OnSearchBarClick
 import com.altsdrop.feature.dapp.ui.DappScreenUiAction.OnSearchIconClick
 import com.altsdrop.feature.dapp.ui.DappScreenUiAction.OnTabSelected
+import com.altsdrop.feature.dapp.ui.DappScreenUiEvent.NavigateToDappWebsite
+import com.altsdrop.feature.dapp.ui.DappScreenUiEvent.NavigateToSearchDappScreen
+import com.altsdrop.feature.dapp.ui.component.DappItem
 import kotlinx.coroutines.launch
 
 @Composable
@@ -79,13 +72,13 @@ fun DappRoute(
     navigateToDappSearchScreen: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                DappScreenUiEvent.NavigateToSearchDappScreen -> {
-                    navigateToDappSearchScreen()
-                }
+                NavigateToSearchDappScreen -> navigateToDappSearchScreen()
+                is NavigateToDappWebsite -> context.openCustomTab(event.url)
             }
         }
     }
@@ -299,23 +292,42 @@ fun TabsWithHorizontalPager(
             state = pagerState,
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
+                .weight(1f),
+            verticalAlignment = Alignment.Top
         ) { page ->
             LazyColumn(state = listState[page]) {
                 items(
-                    count = 10,
-                    key = { index -> "item_$index" }
+                    count = uiState.dAppsByTab[uiState.selectedTabName]?.size ?: 0,
+                    key = {
+                        uiState.dAppsByTab[uiState.selectedTabName]?.get(it)?.url ?: ""
+                    }
                 ) { index ->
                     if (index == 0) {
                         Spacer(modifier = Modifier.height(8.dp))
                     }
 
-                    DappItem(
-                        modifier = Modifier.padding(
-                            horizontal = 16.dp,
-                            vertical = 16.dp
+                    AnimatedVisibility(
+                        visible = uiState.dAppsByTab[uiState.selectedTabName]?.get(index) != null
+                    ) {
+                        DappItem(
+                            modifier = Modifier
+                                .padding(
+                                    horizontal = 16.dp,
+                                    vertical = 16.dp
+                                )
+                                .clickable {
+                                    onAction(
+                                        OnDappItemClick(
+                                            uiState
+                                                .dAppsByTab[uiState.selectedTabName]
+                                                ?.get(index)
+                                                ?.url ?: ""
+                                        )
+                                    )
+                                },
+                            dappItem = uiState.dAppsByTab[uiState.selectedTabName]?.get(index)!!
                         )
-                    )
+                    }
 
                     if (index == 9) {
                         Spacer(modifier = Modifier.height(8.dp))
@@ -331,106 +343,6 @@ fun TabsWithHorizontalPager(
         }
     }
 }
-
-@Composable
-private fun DappItem(
-    modifier: Modifier
-) {
-    Column(modifier = modifier) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            val url = "https://m3.material.io/static/assets/m3-favicon.svg"
-
-            AsyncImage(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(4.dp)
-                    .aspectRatio(1f / 1f)
-                    .clip(RoundedCornerShape(12.dp)), // Change dp for more/less rounding
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(url)
-                    .diskCachePolicy(CachePolicy.ENABLED)    // Enable disk cache
-                    .memoryCachePolicy(CachePolicy.ENABLED)  // Enable memory cache
-                    .apply {
-                        if (url.endsWith(".svg", ignoreCase = true)) {
-                            decoderFactory(SvgDecoder.Factory())
-                        }
-                    }
-                    .build(),
-                contentScale = ContentScale.Crop,
-                contentDescription = stringResource(R.string.content_description_dapp),
-            )
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .weight(1f)
-            ) {
-                Text(
-                    modifier = Modifier,
-                    text = "Uniswap",
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.Bold
-                    ),
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                FlowRow(
-                    maxLines = 1,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    TextChip(
-                        text = "DEX",
-                        contentPadding = PaddingValues(
-                            horizontal = 12.dp,
-                            vertical = 2.dp
-                        ),
-                        textStyle = MaterialTheme.typography.labelSmall.copy(
-                            fontSize = 8.sp
-                        ),
-                        borderColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                        backgroundColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                        textColor = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    TextChip(
-                        text = "Exchange",
-                        contentPadding = PaddingValues(
-                            horizontal = 12.dp,
-                            vertical = 2.dp
-                        ),
-                        textStyle = MaterialTheme.typography.labelSmall.copy(
-                            fontSize = 8.sp
-                        ),
-                        borderColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                        backgroundColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-                        textColor = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Text(
-            modifier = Modifier,
-            text = "A decentralized exchange (DEX) built on Ethereum that allows users to swap ERC-20 tokens directly from their wallets without relying on a centralized intermediary, using automated market maker (AMM) smart contracts to determine pricing and liquidity.",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onBackground.copy(
-                alpha = 0.5f
-            ),
-            maxLines = 2
-        )
-    }
-}
-
 
 @Composable
 fun NoRippleTab(
@@ -487,7 +399,16 @@ fun DappScreenPreview() {
 fun DappItemPreview() {
     AltsdropTheme {
         DappItem(
-            modifier = Modifier
+            modifier = Modifier,
+            dappItem = Dapp(
+                id = "id",
+                name = "Dapp Name",
+                description = "Dapp Description",
+                iconUrl = "",
+                url = "",
+                tags = listOf("Tag1", "Tag2"),
+                network = "Ethereum"
+            )
         )
     }
 }

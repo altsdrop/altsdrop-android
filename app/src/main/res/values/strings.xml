@@ -71,4 +71,8 @@
     <!-- App Bar Title -->
     <string name="title_discover_d_apps">Discover dApps</string>
     <string name="text_dapp_search_placeholder">Find a dApp by name or URL</string>
+
+    <!-- Dapp Search -->
+    <string name="dapp_no_search_result_heading">Oops! No Results Found</string>
+    <string name="dapp_no_search_result">No Dapps matched your search. Come on, try again using a different name or URL.</string>
 </resources>

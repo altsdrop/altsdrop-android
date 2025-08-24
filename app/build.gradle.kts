@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.com.google.devtools.ksp)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.com.google.firebase.crashlytics)
+    alias(libs.plugins.androidx.room)
     kotlin("plugin.serialization") version "2.0.20"
 }
 
@@ -88,6 +89,10 @@ android {
     buildFeatures {
         buildConfig = true
     }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
 }
 
 dependencies {
@@ -152,6 +157,11 @@ dependencies {
     implementation(libs.moshi.kotlin)
     implementation(libs.moshi)
     ksp(libs.moshi.kotlin.codegen)
+
+    //Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

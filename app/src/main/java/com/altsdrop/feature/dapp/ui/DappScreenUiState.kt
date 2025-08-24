@@ -1,7 +1,7 @@
 package com.altsdrop.feature.dapp.ui
 
 import androidx.compose.runtime.Immutable
-import com.altsdrop.feature.dapp.domain.Dapp
+import com.altsdrop.feature.dapp.domain.model.Dapp
 
 @Immutable
 data class DappScreenUiState(
@@ -9,6 +9,7 @@ data class DappScreenUiState(
         "All", "Ethereum", "Solana", "Base", "BNB Chain", "Sui",
         "Avalanche", "Tron", "Optimism"
     ),
-    val allDapp: List<Dapp> = emptyList(),
+    val dAppsByTab: Map<String, List<Dapp>> = emptyMap(),
     val selectedTabIndex: Int = 0,
+    val selectedTabName: String = "All"
 )
