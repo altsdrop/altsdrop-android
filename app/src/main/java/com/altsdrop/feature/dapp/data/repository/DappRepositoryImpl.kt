@@ -4,10 +4,10 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.altsdrop.core.database.dao.DappDao
 import com.altsdrop.core.database.model.toDomain
-import com.altsdrop.core.database.model.toEntity
 import com.altsdrop.core.util.PreferencesKeys
 import com.altsdrop.feature.dapp.data.model.DappDto
 import com.altsdrop.feature.dapp.data.model.toDomain
+import com.altsdrop.feature.dapp.data.model.toEntity
 import com.altsdrop.feature.dapp.domain.model.Dapp
 import com.altsdrop.feature.dapp.domain.repository.DappRepository
 import com.google.firebase.firestore.CollectionReference
@@ -38,7 +38,7 @@ class DappRepositoryImpl(
             // Refresh from Firestore if local cache is empty or outdated
             if (localDapps.isEmpty() || remoteLastUpdated > localLastUpdated) {
                 val documents = dappCollectionRef.get().await()
-                val dapps = documents.toObjects(DappDto::class.java).map { it.toDomain() }
+                val dapps = documents.toObjects(DappDto::class.java)
 
                 // Cache in Room
                 if (dapps.isNotEmpty()) {
@@ -51,7 +51,7 @@ class DappRepositoryImpl(
                     }
                 }
 
-                return@withContext dapps
+                return@withContext dapps.map { it.toDomain() }
             } else {
                 return@withContext localDapps
             }

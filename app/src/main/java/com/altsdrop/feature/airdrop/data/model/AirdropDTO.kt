@@ -8,7 +8,9 @@ data class AirdropDTO(
     val title: String = "",
     val categories: String = "",
     val description: String = "",
+    @field:JvmField
     val isHighlyRated: Boolean = false,
+    @field:JvmField
     val isFeatured: Boolean = false,
     val endDate: Timestamp = Timestamp.now(),
     val networks: List<String> = emptyList(),
