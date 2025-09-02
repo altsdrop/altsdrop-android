@@ -19,8 +19,14 @@ data class DappEntity(
     val url: String,
     @ColumnInfo(name = "tags")
     val tags: List<String>,
-    @ColumnInfo(name = "network")
-    val network: String
+    @ColumnInfo(name = "chains")
+    val chains: List<String>,
+    @ColumnInfo(name = "isArchived")
+    val isArchived: Boolean,
+    @ColumnInfo(name = "isFeatured")
+    val isFeatured: Boolean,
+    @ColumnInfo(name = "isHighlyRated")
+    val isHighlyRated: Boolean
 )
 
 fun DappEntity.toDomain() = Dapp(
@@ -30,7 +36,10 @@ fun DappEntity.toDomain() = Dapp(
     iconUrl = iconUrl,
     url = url,
     tags = tags,
-    network = network
+    chains = chains,
+    isArchived = isArchived,
+    isFeatured = isFeatured,
+    isHighlyRated = isHighlyRated
 )
 
 fun Dapp.toEntity() = DappEntity(
@@ -40,5 +49,8 @@ fun Dapp.toEntity() = DappEntity(
     iconUrl = iconUrl,
     url = url,
     tags = tags,
-    network = network
+    chains = chains,
+    isArchived = isArchived,
+    isFeatured = isFeatured,
+    isHighlyRated = isHighlyRated
 )

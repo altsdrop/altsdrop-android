@@ -6,4 +6,5 @@ object FirestoreConstants {
     const val DAPP_COLLECTION = "dapps"
     const val FEEDBACK_COLLECTION = "feedback"
     const val BUG_REPORT_COLLECTION = "bug_report"
+    const val COLLECTION_META_DATA = "collection_meta_data"
 }

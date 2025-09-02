@@ -8,5 +8,8 @@ data class Dapp(
     val isIconUrlSvg: Boolean = false,
     val url: String,
     val tags: List<String>,
-    val network: String
+    val chains: List<String>,
+    val isArchived: Boolean,
+    val isFeatured: Boolean,
+    val isHighlyRated: Boolean
 )

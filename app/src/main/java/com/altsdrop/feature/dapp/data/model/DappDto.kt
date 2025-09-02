@@ -9,7 +9,10 @@ data class DappDto(
     val iconUrl: String = "",
     val url: String = "",
     val tags: List<String> = emptyList(),
-    val network: String = ""
+    val chains: List<String> = emptyList(),
+    val isArchived: Boolean = false,
+    val isFeatured: Boolean = false,
+    val isHighlyRated: Boolean = false
 )
 
 fun DappDto.toDomain() = Dapp(
@@ -20,5 +23,8 @@ fun DappDto.toDomain() = Dapp(
     isIconUrlSvg = iconUrl.endsWith(".svg", ignoreCase = true),
     url = url,
     tags = tags,
-    network = network
+    chains = chains,
+    isArchived = isArchived,
+    isFeatured = isFeatured,
+    isHighlyRated = isHighlyRated
 )

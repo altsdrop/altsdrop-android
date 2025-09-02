@@ -1,5 +1,7 @@
 package com.altsdrop.feature.dapp.di
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.altsdrop.core.database.dao.DappDao
 import com.altsdrop.core.firebase.firestore.util.FirestoreConstants
 import com.altsdrop.feature.dapp.data.repository.DappRepositoryImpl
@@ -25,8 +27,16 @@ object DappModule {
     fun provideDappRepository(
         @Named(FirestoreConstants.DAPP_COLLECTION)
         dappCollectionRef: CollectionReference,
-        dappDao: DappDao
+        @Named(FirestoreConstants.COLLECTION_META_DATA)
+        collectionMetaDataRef: CollectionReference,
+        dappDao: DappDao,
+        dataStore: DataStore<Preferences>
     ): DappRepository {
-        return DappRepositoryImpl(dappCollectionRef, dappDao)
+        return DappRepositoryImpl(
+            dappCollectionRef,
+            collectionMetaDataRef,
+            dappDao,
+            dataStore
+        )
     }
 }

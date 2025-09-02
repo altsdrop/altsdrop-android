@@ -2,10 +2,10 @@ package com.altsdrop.core.database.util
 
 import androidx.room.TypeConverter
 
-class TagsConverter {
+class StringListConverter {
     @TypeConverter
-    fun fromTagsList(tags: List<String>?): String {
-        return tags?.joinToString(separator = ",") ?: ""
+    fun fromTagsList(data: List<String>?): String {
+        return data?.joinToString(separator = ",") ?: ""
     }
 
     @TypeConverter

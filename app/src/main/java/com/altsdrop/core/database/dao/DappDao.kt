@@ -24,8 +24,8 @@ interface DappDao {
     )
     suspend fun searchDapps(query: String): List<DappEntity>
 
-    @Query("SELECT * FROM dapps WHERE network = :network")
-    suspend fun getDappsByNetwork(network: String): List<DappEntity>
+    @Query("SELECT * FROM dapps WHERE chains LIKE '%' || :chain || '%'")
+    suspend fun getDappsByChain(chain: String): List<DappEntity>
 
     @Query("DELETE FROM dapps")
     fun deleteAll()

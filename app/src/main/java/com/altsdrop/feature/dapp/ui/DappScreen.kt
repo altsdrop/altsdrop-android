@@ -406,8 +406,11 @@ fun DappItemPreview() {
                 description = "Dapp Description",
                 iconUrl = "",
                 url = "",
-                tags = listOf("Tag1", "Tag2"),
-                network = "Ethereum"
+                tags = listOf("DeFi", "Tag2"),
+                chains = listOf("Solana", "Ethereum"),
+                isArchived = false,
+                isFeatured = false,
+                isHighlyRated = false
             )
         )
     }

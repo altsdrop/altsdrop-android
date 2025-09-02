@@ -4,14 +4,14 @@ import com.altsdrop.feature.dapp.domain.model.Dapp
 import com.altsdrop.feature.dapp.domain.repository.DappRepository
 import javax.inject.Inject
 
-class GetDappsByNetworkUseCase @Inject constructor(
+class GetDappsByChainUseCase @Inject constructor(
     private val repository: DappRepository
 ) {
-    suspend operator fun invoke(network: String): List<Dapp> {
-        return if (network == "All") {
+    suspend operator fun invoke(chain: String): List<Dapp> {
+        return if (chain == "All") {
             repository.getAllDapps()
         } else {
-            repository.getDappsByNetwork(network)
+            repository.getDappsByChain(chain)
         }
     }
 }

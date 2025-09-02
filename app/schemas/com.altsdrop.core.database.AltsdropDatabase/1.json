@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b608cf83fd169f9b2c8f0cb2a916289b",
+    "identityHash": "05ee7a0f1cc2cacd9254c42fa8089ae2",
     "entities": [
       {
         "tableName": "dapps",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `icon_url` TEXT NOT NULL, `url` TEXT NOT NULL, `tags` TEXT NOT NULL, `network` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `icon_url` TEXT NOT NULL, `url` TEXT NOT NULL, `tags` TEXT NOT NULL, `chains` TEXT NOT NULL, `isArchived` INTEGER NOT NULL, `isFeatured` INTEGER NOT NULL, `isHighlyRated` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -45,9 +45,27 @@
             "notNull": true
           },
           {
-            "fieldPath": "network",
-            "columnName": "network",
+            "fieldPath": "chains",
+            "columnName": "chains",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isArchived",
+            "columnName": "isArchived",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isFeatured",
+            "columnName": "isFeatured",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isHighlyRated",
+            "columnName": "isHighlyRated",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -61,7 +79,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b608cf83fd169f9b2c8f0cb2a916289b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '05ee7a0f1cc2cacd9254c42fa8089ae2')"
     ]
   }
 }

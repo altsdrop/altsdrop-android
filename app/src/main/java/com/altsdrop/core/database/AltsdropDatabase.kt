@@ -5,13 +5,13 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.altsdrop.core.database.dao.DappDao
 import com.altsdrop.core.database.model.DappEntity
-import com.altsdrop.core.database.util.TagsConverter
+import com.altsdrop.core.database.util.StringListConverter
 
 @Database(
     entities = [DappEntity::class],
     version = 1
 )
-@TypeConverters(TagsConverter::class)
+@TypeConverters(StringListConverter::class)
 abstract class AltsdropDatabase : RoomDatabase() {
     abstract fun dappDao(): DappDao
 }

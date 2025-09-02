@@ -2,7 +2,7 @@ package com.altsdrop.feature.dapp.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.altsdrop.feature.dapp.domain.usecase.GetDappsByNetworkUseCase
+import com.altsdrop.feature.dapp.domain.usecase.GetDappsByChainUseCase
 import com.altsdrop.feature.dapp.ui.DappScreenUiAction.OnDappItemClick
 import com.altsdrop.feature.dapp.ui.DappScreenUiAction.OnSearchBarClick
 import com.altsdrop.feature.dapp.ui.DappScreenUiAction.OnSearchIconClick
@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DappScreenViewModel @Inject constructor(
-    private val getDappsByNetworkUseCase: GetDappsByNetworkUseCase
+    private val getDappsByChainUseCase: GetDappsByChainUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(DappScreenUiState())
@@ -60,11 +60,11 @@ class DappScreenViewModel @Inject constructor(
     private fun getDappsByTab() {
         viewModelScope.launch {
             val currentState = _uiState.value
-            val network = currentState.tabs[currentState.selectedTabIndex]
-            val dapps = getDappsByNetworkUseCase(network)
+            val chain = currentState.tabs[currentState.selectedTabIndex]
+            val dapps = getDappsByChainUseCase(chain)
 
             _uiState.update {
-                it.copy(dAppsByTab = it.dAppsByTab + (network to dapps))
+                it.copy(dAppsByTab = it.dAppsByTab + (chain to dapps))
             }
         }
     }
