@@ -4,13 +4,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
-import com.altsdrop.feature.airdrop.navigation.AirdropDetailsScreen
-import com.altsdrop.feature.airdrop.navigation.AirdropNavigationRoute
-import com.altsdrop.feature.airdrop.navigation.AirdropScreen
-import com.altsdrop.feature.airdrop.ui.airdrop_details.AirdropDetailsRoute
-import com.altsdrop.feature.news.ui.details.ArticleDetailsRoute
+import com.altsdrop.core.navigation.DeepLinks
+import com.altsdrop.feature.news.ui.details.NewsDetailsRoute
 import com.altsdrop.feature.news.ui.home.NewsHomeRoute
 import kotlinx.serialization.Serializable
 
@@ -21,7 +19,7 @@ object NewsNavigationRoute
 object NewsScreen
 
 @Serializable
-data class ArticleDetailsScreen(
+data class NewsDetailsScreen(
     val slug: String
 )
 
@@ -31,20 +29,32 @@ fun NavController.navigateToNews() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 fun NavGraphBuilder.newsScreen(
-    navigateToArticleDetails: (String) -> Unit,
+    navigateToNewsDetails: (String) -> Unit,
     navigateBack: () -> Unit
 ) {
     navigation<NewsNavigationRoute>(startDestination = NewsScreen) {
-        composable<NewsScreen> {
+        composable<NewsScreen>(
+            deepLinks = listOf(
+                navDeepLink {
+                    uriPattern = DeepLinks.NEWS
+                }
+            )
+        ) {
             NewsHomeRoute(
-                navigateToArticleDetails = navigateToArticleDetails
+                navigateToNewsDetails = navigateToNewsDetails
             )
         }
 
-        composable<ArticleDetailsScreen> { backStackEntry ->
-            val articleDetailsScreen: ArticleDetailsScreen = backStackEntry.toRoute()
-            ArticleDetailsRoute(
-                slug = articleDetailsScreen.slug,
+        composable<NewsDetailsScreen>(
+            deepLinks = listOf(
+                navDeepLink {
+                    uriPattern = DeepLinks.NEWS_DETAILS
+                }
+            )
+        ) { backStackEntry ->
+            val newsDetailsScreen: NewsDetailsScreen = backStackEntry.toRoute()
+            NewsDetailsRoute(
+                slug = newsDetailsScreen.slug,
                 navigateBack = navigateBack
             )
         }

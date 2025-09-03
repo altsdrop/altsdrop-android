@@ -1,8 +1,8 @@
 package com.altsdrop.feature.news.data.repository
 
-import com.altsdrop.feature.news.data.model.ArticleDTO
+import com.altsdrop.feature.news.data.model.NewsDto
 import com.altsdrop.feature.news.data.model.toDomain
-import com.altsdrop.feature.news.domain.model.Article
+import com.altsdrop.feature.news.domain.model.News
 import com.altsdrop.feature.news.domain.repository.NewsRepository
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Query
@@ -16,15 +16,15 @@ private const val IS_ARCHIVED_KEY = "isArchived"
 class NewsRepositoryImpl(
     private val newsCollectionRef: CollectionReference
 ) : NewsRepository {
-    override suspend fun getArticles(): List<Article> = withContext(Dispatchers.IO) {
+    override suspend fun getNews(): List<News> = withContext(Dispatchers.IO) {
         return@withContext try {
             // Retrieve all documents in the collection
             val documents = newsCollectionRef
                 .whereEqualTo(IS_ARCHIVED_KEY, false)
                 .orderBy(PUBLISHED_DATE_TIME_KEY, Query.Direction.DESCENDING)
                 .get().await()
-            val articles = documents.toObjects(ArticleDTO::class.java)
-            articles.map { it.toDomain() }
+            val news = documents.toObjects(NewsDto::class.java)
+            news.map { it.toDomain() }
         } catch (e: Exception) {
             // Handle exception, e.g., logging or returning an empty list
             e.printStackTrace()
@@ -32,7 +32,7 @@ class NewsRepositoryImpl(
         }
     }
 
-    override suspend fun getArticleBySlug(slug: String) = withContext(Dispatchers.IO) {
+    override suspend fun getNewsBySlug(slug: String) = withContext(Dispatchers.IO) {
         return@withContext try {
             val snapshot = newsCollectionRef
                 .document(slug)
@@ -40,11 +40,11 @@ class NewsRepositoryImpl(
                 .await()
 
             if (snapshot.exists()) {
-                val dto = snapshot.toObject(ArticleDTO::class.java)
+                val dto = snapshot.toObject(NewsDto::class.java)
                 if (dto != null) {
                     Result.success(dto.toDomain())
                 } else {
-                    Result.failure(NullPointerException("ArticleDTO is null"))
+                    Result.failure(NullPointerException("NewsDto is null"))
                 }
             } else {
                 Result.failure(NoSuchElementException("No document found with slug: $slug"))

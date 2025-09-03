@@ -2,7 +2,7 @@ package com.altsdrop.feature.news.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.altsdrop.feature.news.domain.usecase.GetArticlesUseCase
+import com.altsdrop.feature.news.domain.usecase.GetNewsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,23 +12,23 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewsHomeViewModel @Inject constructor(
-    private val getArticlesUseCase: GetArticlesUseCase
+    private val getNewsUseCase: GetNewsUseCase
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(NewsHomeScreenUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
-        getArticles()
+        getNews()
     }
 
-    private fun getArticles() {
+    private fun getNews() {
         viewModelScope.launch {
-            val articles = getArticlesUseCase()
+            val news = getNewsUseCase()
 
             _uiState.update {
                 it.copy(
-                    articles = articles
+                    news = news
                 )
             }
         }

@@ -1,10 +1,10 @@
 package com.altsdrop.feature.news.data.model
 
-import com.altsdrop.feature.news.domain.model.Article
+import com.altsdrop.feature.news.domain.model.News
 import com.altsdrop.feature.news.util.convertFirebaseTimestamp
 import com.google.firebase.Timestamp
 
-data class ArticleDTO(
+data class NewsDto(
     val headerImage: String = "",
     val category: String = "",
     val content: String = "",
@@ -15,7 +15,7 @@ data class ArticleDTO(
     val readTime: Int = 0
 )
 
-fun ArticleDTO.toDomain() = Article(
+fun NewsDto.toDomain() = News(
     headerImage = headerImage,
     category = category,
     content = content,

@@ -15,7 +15,7 @@ import com.altsdrop.feature.dapp.navigation.navigateToDappSearchScreen
 import com.altsdrop.feature.login.navigation.LoginScreen
 import com.altsdrop.feature.login.navigation.loginScreen
 import com.altsdrop.feature.login.navigation.navigateToLoginScreen
-import com.altsdrop.feature.news.navigation.ArticleDetailsScreen
+import com.altsdrop.feature.news.navigation.NewsDetailsScreen
 import com.altsdrop.feature.news.navigation.NewsNavigationRoute
 import com.altsdrop.feature.news.navigation.newsScreen
 import com.altsdrop.feature.settings.navigation.SettingsScreen
@@ -85,9 +85,9 @@ fun HomeScreenNavHost(
             navigateToLogin = navigateToLogin
         )
         newsScreen(
-            navigateToArticleDetails = { slug ->
+            navigateToNewsDetails = { slug ->
                 navHostController.navigate(
-                    route = ArticleDetailsScreen(
+                    route = NewsDetailsScreen(
                         slug = slug
                     )
                 )

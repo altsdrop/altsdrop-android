@@ -47,23 +47,23 @@ import com.altsdrop.core.ui.component.TextChip
 import com.altsdrop.core.ui.component.getHtmlText
 import com.altsdrop.core.util.openCustomTab
 import com.altsdrop.core.util.toRgba
-import com.altsdrop.feature.news.domain.model.Article
-import com.altsdrop.feature.news.domain.model.previewArticle
+import com.altsdrop.feature.news.domain.model.News
+import com.altsdrop.feature.news.domain.model.previewNews
 
 @ExperimentalMaterial3Api
 @Composable
-fun ArticleDetailsRoute(
-    viewModel: ArticleDetailsViewModel = hiltViewModel(),
+fun NewsDetailsRoute(
+    viewModel: NewsDetailsViewModel = hiltViewModel(),
     slug: String,
     navigateBack: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        viewModel.getArticleDetails(slug = slug)
+        viewModel.getNewsDetails(slug = slug)
     }
 
-    ArticleDetailsScreen(
+    NewsDetailsScreen(
         uiState = uiState,
         navigateBack = navigateBack
     )
@@ -71,8 +71,8 @@ fun ArticleDetailsRoute(
 
 @ExperimentalMaterial3Api
 @Composable
-fun ArticleDetailsScreen(
-    uiState: ArticleDetailsScreenUiState,
+fun NewsDetailsScreen(
+    uiState: NewsDetailsScreenUiState,
     navigateBack: () -> Unit = {},
 ) {
     Column(
@@ -84,7 +84,7 @@ fun ArticleDetailsScreen(
             title = {
                 Text(
                     text = when (uiState) {
-                        is ArticleDetailsScreenUiState.Success -> uiState.article.title
+                        is NewsDetailsScreenUiState.Success -> uiState.news.title
                         else -> ""
                     },
                     textAlign = TextAlign.Start,
@@ -107,7 +107,7 @@ fun ArticleDetailsScreen(
         )
 
         when (uiState) {
-            is ArticleDetailsScreenUiState.Loading -> {
+            is NewsDetailsScreenUiState.Loading -> {
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -117,11 +117,11 @@ fun ArticleDetailsScreen(
                 }
             }
 
-            is ArticleDetailsScreenUiState.Success -> {
-                ArticleDetails(uiState.article)
+            is NewsDetailsScreenUiState.Success -> {
+                NewsDetails(uiState.news)
             }
 
-            is ArticleDetailsScreenUiState.Error -> {
+            is NewsDetailsScreenUiState.Error -> {
                 ErrorInfo(
                     message = uiState.message,
                     onRetry = { /*TODO*/ }
@@ -133,7 +133,7 @@ fun ArticleDetailsScreen(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ArticleDetails(article: Article) {
+fun NewsDetails(news: News) {
     val scrollState = rememberScrollState()
 
     val backgroundColor = MaterialTheme.colorScheme.background.toRgba()
@@ -156,14 +156,14 @@ fun ArticleDetails(article: Article) {
         ) {
             FirebaseAsyncImage(
                 modifier = Modifier,
-                imageUrl = article.headerImage,
+                imageUrl = news.headerImage,
                 contentScale = ContentScale.Crop,
                 contentDescription = "featureBanner"
             )
         }
 
         Text(
-            text = article.title,
+            text = news.title,
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onBackground,
             fontWeight = FontWeight.Bold
@@ -173,7 +173,7 @@ fun ArticleDetails(article: Article) {
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            article.tags.forEach { tag ->
+            news.tags.forEach { tag ->
                 TextChip(text = tag)
             }
         }
@@ -196,7 +196,7 @@ fun ArticleDetails(article: Article) {
                     }
                     loadDataWithBaseURL(
                         null,
-                        getHtmlText(article.content, backgroundColor, bodyColor),
+                        getHtmlText(news.content, backgroundColor, bodyColor),
                         "text/html",
                         "UTF-8",
                         null
@@ -216,8 +216,8 @@ fun ArticleDetails(article: Article) {
 @Composable
 fun AirdropHomeScreenLoadingPreview() {
     AltsdropTheme {
-        ArticleDetailsScreen(
-            uiState = ArticleDetailsScreenUiState.Loading
+        NewsDetailsScreen(
+            uiState = NewsDetailsScreenUiState.Loading
         )
     }
 }
@@ -230,9 +230,9 @@ fun AirdropHomeScreenLoadingPreview() {
 @Composable
 fun AirdropHomeScreenSuccessPreview() {
     AltsdropTheme {
-        ArticleDetailsScreen(
-            uiState = ArticleDetailsScreenUiState.Success(
-                article = previewArticle
+        NewsDetailsScreen(
+            uiState = NewsDetailsScreenUiState.Success(
+                news = previewNews
             )
         )
     }

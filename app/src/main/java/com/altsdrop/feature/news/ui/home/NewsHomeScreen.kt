@@ -39,28 +39,27 @@ import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.altsdrop.R
-import com.altsdrop.core.ui.component.FirebaseAsyncImage
 import com.altsdrop.core.ui.component.TextChip
-import com.altsdrop.feature.news.domain.model.Article
-import com.altsdrop.feature.news.domain.model.previewArticle
+import com.altsdrop.feature.news.domain.model.News
+import com.altsdrop.feature.news.domain.model.previewNews
 
 @Composable
 fun NewsHomeRoute(
     viewModel: NewsHomeViewModel = hiltViewModel(),
-    navigateToArticleDetails: (String) -> Unit = {}
+    navigateToNewsDetails: (String) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     NewsHomeScreen(
         uiState = uiState,
-        onArticleClicked = navigateToArticleDetails
+        onNewsClicked = navigateToNewsDetails
     )
 }
 
 @Composable
 fun NewsHomeScreen(
     uiState: NewsHomeScreenUiState,
-    onArticleClicked: (String) -> Unit = {}
+    onNewsClicked: (String) -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -84,15 +83,15 @@ fun NewsHomeScreen(
 
 
             items(
-                items = uiState.articles,
-                key = { article ->
-                    article.slug
+                items = uiState.news,
+                key = { news ->
+                    news.slug
                 }
-            ) { article ->
-                ArticleCard(
-                    article = article,
-                    onArticleClicked = {
-                        onArticleClicked(article.slug)
+            ) { news ->
+                NewsCard(
+                    news = news,
+                    onNewsClicked = {
+                        onNewsClicked(news.slug)
                     }
                 )
             }
@@ -102,16 +101,16 @@ fun NewsHomeScreen(
 }
 
 @Composable
-fun ArticleCard(
-    article: Article,
-    onArticleClicked: () -> Unit = {}
+fun NewsCard(
+    news: News,
+    onNewsClicked: () -> Unit = {}
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .clickable {
-                onArticleClicked()
+                onNewsClicked()
             },
         horizontalArrangement = Arrangement.spacedBy(16.dp) // Start alignment, but text will expand
     ) {
@@ -121,13 +120,13 @@ fun ArticleCard(
                 .align(Alignment.CenterVertically)
                 .clip(RoundedCornerShape(8.dp)),
             model = ImageRequest.Builder(LocalContext.current)
-                .data(article.headerImage)
+                .data(news.headerImage)
                 .diskCachePolicy(CachePolicy.ENABLED)    // Enable disk cache
                 .memoryCachePolicy(CachePolicy.ENABLED)  // Enable memory cache
                 .build(),
             alignment = Alignment.Center,
             contentScale = ContentScale.Crop,
-            contentDescription = "article image"
+            contentDescription = "news image"
         )
 
         Column(
@@ -138,7 +137,7 @@ fun ArticleCard(
             Text(
                 modifier = Modifier
                     .wrapContentWidth(),
-                text = article.title,
+                text = news.title,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontWeight = FontWeight.Bold
                 ),
@@ -160,8 +159,8 @@ fun ArticleCard(
                     horizontalAlignment = Alignment.Start
                 ) {
                     TextChip(
-                        text = if (article.readTime == 1) "${article.readTime} min read" else
-                            "${article.readTime} mins read",
+                        text = if (news.readTime == 1) "${news.readTime} min read" else
+                            "${news.readTime} mins read",
                         borderColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         backgroundColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(
                             alpha = 0f
@@ -174,7 +173,7 @@ fun ArticleCard(
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
                         .weight(1f),
-                    text = article.publishedDateTime,
+                    text = news.publishedDateTime,
                     color = MaterialTheme.colorScheme.onSurface.copy(
                         alpha = 0.6f
                     ),
@@ -193,8 +192,8 @@ fun ArticleCard(
 fun NewsHomeScreenPreview() {
     NewsHomeScreen(
         uiState = NewsHomeScreenUiState(
-            articles = listOf(
-                Article(
+            news = listOf(
+                News(
                     "1",
                     "Blast L2",
                 )
@@ -205,8 +204,8 @@ fun NewsHomeScreenPreview() {
 
 @Preview
 @Composable
-fun ArticleCardPreview() {
-    ArticleCard(
-        article = previewArticle
+fun NewsCardPreview() {
+    NewsCard(
+        news = previewNews
     )
 }
