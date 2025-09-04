@@ -30,6 +30,7 @@ class UpdateNotificationSettingUseCase @Inject constructor(
 
     private fun subscribeToTopic() {
         firebase.messaging.subscribeToTopic(NotificationTopic.AIRDROP)
+        firebase.messaging.subscribeToTopic(NotificationTopic.ALL_USERS)
     }
 
     private suspend fun setNotificationEnabled(enabled: Boolean) {
