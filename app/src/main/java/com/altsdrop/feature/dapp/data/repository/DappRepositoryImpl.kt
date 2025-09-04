@@ -42,6 +42,7 @@ class DappRepositoryImpl(
 
                 // Cache in Room
                 if (dapps.isNotEmpty()) {
+                    dappDao.deleteAll()
                     dappDao.insertAll(dapps.map { it.toEntity() })
                     // Update lastUpdated in SharedPreferences
                     dataStore.updateData { prefs ->

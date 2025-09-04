@@ -299,7 +299,7 @@ fun TabsWithHorizontalPager(
                 items(
                     count = uiState.dAppsByTab[uiState.selectedTabName]?.size ?: 0,
                     key = {
-                        uiState.dAppsByTab[uiState.selectedTabName]?.get(it)?.url ?: ""
+                        uiState.dAppsByTab[uiState.selectedTabName]?.get(it)?.id ?: ""
                     }
                 ) { index ->
                     if (index == 0) {
