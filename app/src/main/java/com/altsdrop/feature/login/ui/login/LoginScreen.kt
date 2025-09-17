@@ -1,13 +1,8 @@
 package com.altsdrop.feature.login.ui.login
 
+import android.content.Context
 import android.widget.Toast
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,14 +19,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,6 +35,7 @@ import com.altsdrop.app.ui.theme.AltsdropTheme
 import com.altsdrop.feature.login.domain.model.SignInState
 import com.altsdrop.feature.login.ui.component.GoogleLoginButton
 import com.altsdrop.feature.login.ui.component.PageIndicator
+import com.altsdrop.feature.login.ui.login.LoginScreenUiAction.OnLoginClick
 
 @Composable
 fun LoginRoute(
@@ -51,36 +43,38 @@ fun LoginRoute(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val activity = LocalActivity.current
 
     LoginScreen(
-        onLoginClick = viewModel::onSignInWithGoogleClick
+        context = activity,
+        onAction = viewModel::onAction
     )
 
-    val context = LocalContext.current
-
     LaunchedEffect(uiState.signInState) {
-        if (uiState.signInState == SignInState.Success) {
-            navigateToHomeScreen()
-        }
-        if (uiState.signInState is SignInState.Error) {
-            Toast.makeText(
-                context,
-                (uiState.signInState as SignInState.Error).message,
-                Toast.LENGTH_SHORT
+        when (uiState.signInState) {
+            is SignInState.Success -> navigateToHomeScreen()
+            is SignInState.Error -> {
+                Toast.makeText(
+                    context,
+                    (uiState.signInState as SignInState.Error).message,
+                    Toast.LENGTH_SHORT
 
-            ).show()
+                ).show()
+            }
+
+            SignInState.Idle, SignInState.Loading -> Unit
         }
     }
 }
 
 @Composable
 fun LoginScreen(
-    onLoginClick: () -> Unit = {}
+    context: Context?,
+    onAction: (LoginScreenUiAction) -> Unit = {}
 ) {
-
     val numberOfPages = 3
     val pagerState = rememberPagerState(pageCount = { numberOfPages })
-
 
     // HorizontalPager to update page based on user interaction
     HorizontalPager(
@@ -167,7 +161,11 @@ fun LoginScreen(
                 verticalAlignment = Alignment.Bottom,
             ) {
                 if (page == 2) {
-                    GoogleLoginButton(onClick = onLoginClick)
+                    GoogleLoginButton(
+                        onClick = {
+                            onAction(OnLoginClick(context))
+                        }
+                    )
                 }
             }
 
@@ -183,6 +181,8 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     AltsdropTheme {
-        LoginScreen()
+        LoginScreen(
+            context = LocalActivity.current,
+        )
     }
 }
